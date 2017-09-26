@@ -30,6 +30,7 @@
     "core-js": "^2.4.1",
     "express": "^4.15.4",
     "mongoose": "^4.11.12",
+    "ngx-progressbar": "^2.0.8",
     "rxjs": "^5.4.2",
     "socket.io": "^2.0.3",
     "zone.js": "^0.8.14"

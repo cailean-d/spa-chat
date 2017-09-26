@@ -1,6 +1,6 @@
 //nodejs modules
 const express = require('express');                               // express framework
-const router = express.Router();                                  // app routes
+const path = require('path');                                     
 const fs = require('fs');                                         // file system
 const app = require('express')();                                 // express application
 const httpExpressServer = require('http').Server(app);            // http server
@@ -20,9 +20,9 @@ app.use(express.static('client'));                             // static dir
 
 
 app.get('*', (req, res) => {
-    res.sendFile('client/index.html');
+    res.sendFile(path.join(__dirname, 'client/index.html'));
 });
   
 
-httpExpressServer.listen(port, () => console.log(`API running on localhost:${port}`));
+httpExpressServer.listen(port, () => console.log(`Server running on localhost:${port}`));
   

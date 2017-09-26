@@ -1,0 +1,16 @@
+<div class="wrapper"  (contextmenu)="disableMenu($event)">
+  <header>
+      <router-outlet name="app-header"></router-outlet>  
+  </header>
+  <div class="app-body">
+      <aside class='left-aside'>
+           <router-outlet name="app-aside-left"></router-outlet>  
+      </aside>
+      <main>
+           <router-outlet name="app-main"></router-outlet>  
+      </main>
+      <aside class='right-aside'>
+        <router-outlet name="app-aside-right"></router-outlet>  
+      </aside>
+  </div>
+</div>
