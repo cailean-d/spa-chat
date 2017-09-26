@@ -1,0 +1,20 @@
+{
+	"db":{
+		"type": "mongodb",
+		"mysql": {
+			"host": "localhost",
+			"user": "root",
+			"password": "",
+			"database": "chat_application",
+			"port": "3306"
+		},
+		"mongodb":{
+			"host": "localhost",
+			"user": "",
+			"password": "",
+			"database": "chat_application",
+			"port": "27017"
+		}
+
+	}
+}
