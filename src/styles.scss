@@ -1,3 +1,5 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
 body{
     padding: 0;
     margin: 0;
@@ -11,6 +13,15 @@ body{
     }
     & a{
         cursor: pointer;
+        & *{
+            cursor: pointer;
+        }
+    }
+    button{
+        cursor: pointer;
+        & *{
+            cursor: pointer;
+        }
     }
 }
 

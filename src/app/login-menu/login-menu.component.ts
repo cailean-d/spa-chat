@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-login-menu',
@@ -7,9 +8,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginMenuComponent implements OnInit {
 
-  constructor() { }
+  isShowLogin: boolean = true;
+  
+  constructor(private titleService: Title) { }
 
   ngOnInit() {
+    this.titleService.setTitle('Добро пожаловать');
+  }
+  switchTitle(){
+    if(this.isShowLogin){
+      this.titleService.setTitle('Добро пожаловать');
+    } else {
+      this.titleService.setTitle('Регистрация');
+    }
+  }
+  showLogin():void{
+    this.isShowLogin = true;
+    this.switchTitle();
+  }
+
+  showReg(): void{
+    this.isShowLogin = false;
+    this.switchTitle();
+  }
+
+  reg(event){
+    event.preventDefault();
   }
 
 }

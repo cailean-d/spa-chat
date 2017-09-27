@@ -8,6 +8,10 @@ const io = require('socket.io')(httpExpressServer);               // socket serv
 const bodyParser = require('body-parser')                         // x-www-form-urlencoded
 
 
+const config = JSON.parse(fs.readFileSync('./config.json', 'utf-8'));  // config file
+
+
+
 const port = process.env.PORT || '3000';
 app.set('port', port);
 
