@@ -5,7 +5,8 @@ const router = express.Router();
 const users = require('./users');
 
 // user api
-router.get('/users', (req, res) => {users.getAllUsers(req, res)});
+router.get('/users', (req, res) => {users.getUsers(req, res)});
+router.get('/users/count', (req, res) => {users.getCount(req, res)})
 router.get('/users/:id', (req, res) => {users.getUser(req, res)});
 router.post('/users', (req, res) => {users.registerUser(req, res)});
 router.put('/users/:id', (req, res) => {users.updateUser(req, res)});

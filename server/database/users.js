@@ -53,7 +53,22 @@ function updateUser(id, data, callback){
     })
 }
 
+function getUsers(offset, limit, callback){
+    users.find({}).skip(offset).limit(limit)
+    .exec(function(err, docs) {
+         callback(err, docs);
+    });
+}
+
+function getCount(callback){
+    users.count({}, function (err, count) {
+        callback(err, count);
+    });
+}
+
  module.exports.registerUser = registerUser;    // C
  module.exports.getUser = getUser;              // R
  module.exports.updateUser = updateUser;        // U 
  module.exports.deleteUser = deleteUser;        // D
+ module.exports.getUsers = getUsers;
+ module.exports.getCount = getCount;
