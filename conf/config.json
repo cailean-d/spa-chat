@@ -17,13 +17,22 @@
 		}
 
 	},
-	"session":{
-		"secret" : "mysecret",
-		"maxAgeServer" : "30",
-		"maxAgeClient" : "30",
-		"httpOnly" : "true",
-		"secure" : "false",
-		"saveUninitialized" : "false",
-		"resave" : "true"
+	"auth" : {
+		"type" : "jwt",
+		"types" : "session, jwt, both",
+		"session":{
+			"secret" : "mysecret",
+			"maxAgeServer" : "30",
+			"maxAgeClient" : "30",
+			"httpOnly" : "true",
+			"secure" : "false",
+			"saveUninitialized" : "false",
+			"resave" : "true"
+		}, 
+		"jwt" : {
+			"algorithm" : "HS256",
+			"secret" : "mysecret",
+			"maxAge" : "30"
+		}
 	}
 }

@@ -10,17 +10,17 @@ module.exports = function(session){
 
   let sessionStore = new Store({ 
         mongooseConnection: mongoose.connection,
-        ttl: Number(config.session.maxAgeServer) * 86400
+        ttl: Number(config.auth.session.maxAgeServer) * 86400
   })
 
   let conf = {
         store: sessionStore,
-        secret: config.session.secret,
-        resave: (config.session.resave === "true"),
-        saveUninitialized: (config.session.saveUninitialized === "true"),
+        secret: config.auth.session.secret,
+        resave: (config.auth.session.resave === "true"),
+        saveUninitialized: (config.auth.session.saveUninitialized === "true"),
         cookie: {
-            maxAge: Number(config.session.maxAgeClient) * 86400000,
-            secure: (config.session.secure === "true")
+            maxAge: Number(config.auth.session.maxAgeClient) * 86400000,
+            secure: (config.auth.session.secure === "true")
         }
   }
 

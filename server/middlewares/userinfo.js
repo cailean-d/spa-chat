@@ -8,5 +8,5 @@ module.exports = function(req){
         version : parseInt(req.useragent.version),
         platform : req.useragent.platform
     }
-    req.session.userinfo = userinfo;
+   return userinfo;
 }
