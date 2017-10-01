@@ -1,4 +1,6 @@
 const database = require('../database/users');
+const userinfo = require('../middlewares/userinfo');
+const bcrypt = require('bcryptjs');                                
 
 function getUsers(req, res){
 
@@ -50,15 +52,25 @@ function registerUser(req, res){
         res.status(400).json({ status: 400, message: 'Password is required'}); 
         return;
     }
-    database.registerUser(data.firstname, data.lastname, data.email, data.password, 
-    function(err, doc, affected){
+
+
+    bcrypt.hash(data.password, 8, function( err, bcryptedPassword) {
         if(err){
             console.log(err);
             res.status(500).json({ status: 500, message: 'Cannot create user!'}); 
         } else {
-            res.status(200).json({ status: 200, message: `User [${doc.id}] created!`});
+            database.registerUser(data.firstname, data.lastname, data.email, bcryptedPassword, 
+                function(err, doc, affected){
+                    if(err){
+                        console.log(err);
+                        res.status(400).json({ status: 400, message: 'Email already exists!'}); 
+                    } else {
+                        res.status(200).json({ status: 200, message: `User [${doc.id}] created!`});
+                    }
+                }) 
         }
-    })  
+    });
+
 }
 
 function updateUser(req, res){
@@ -125,9 +137,52 @@ function getCount(req, res){
     });
 }
 
+
+function loginUser(req, res){
+    let data = req.body; 
+
+    if(!data.email){
+        res.status(400).json({ status: 400, message: 'Email is required'}); 
+        return;
+    }
+    if(!data.password){
+        res.status(400).json({ status: 400, message: 'Password is required'}); 
+        return;
+    }
+
+    database.getUserByEmail(data.email, function(err, doc){
+        if (err){
+            console.log(err);
+            res.status(500).json({ status: 500, message: 'Cannot log in!'}); 
+        } else if(!doc){
+            res.status(400).json({ status: 400, message: `No such email!`});
+        } else{
+            bcrypt.compare(data.password, doc.password, function(err, doesMatch){
+                if (err){
+                    console.log(err);
+                    res.status(500).json({ status: 500, message: 'Cannot log in!'}); 
+                } else if(!doesMatch){
+                    res.status(400).json({ status: 400, message: `Incorrect password`});
+                } else {
+                    req.session.logined = true;
+                    userinfo(req);
+                    res.status(200).json({ status: 200, message: `User [${doc.id}] logined!!!`});
+                }
+              });
+        }
+    })
+}
+
+function logoutUser(req, res){
+    req.session.destroy();
+    res.status(200).json({ status: 200, message: `User logouted!`});
+}
+
 module.exports.registerUser = registerUser;    // C
 module.exports.getUser = getUser;              // R
 module.exports.updateUser = updateUser;        // U 
 module.exports.deleteUser = deleteUser;        // D
 module.exports.getUsers = getUsers;
 module.exports.getCount = getCount;
+module.exports.loginUser = loginUser;
+module.exports.logoutUser = logoutUser;

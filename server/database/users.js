@@ -10,7 +10,7 @@ autoIncrement.initialize(database);
 userSchema = new Schema({
     firstname: {type: String, required: true},
     lastname: {type: String, required: true},
-    email: {type: String, required: true},
+    email: {type: String, required: true, unique : "email already exists"},
     password: {type: String, required: true},
     gender: {type: String, default: null},
     date: {type: Date, default: Date.now}
@@ -47,6 +47,12 @@ function getUser(id, callback){
     });
 }
 
+function getUserByEmail(email, callback){
+    users.findOne({email : email},  function (err, doc){
+        callback(err, doc);
+    });
+}
+
 function updateUser(id, data, callback){
     users.findOneAndUpdate({id : id}, {$set:data}, { new: true }, function(err, doc){
         callback(err, doc);
@@ -72,3 +78,4 @@ function getCount(callback){
  module.exports.deleteUser = deleteUser;        // D
  module.exports.getUsers = getUsers;
  module.exports.getCount = getCount;
+ module.exports.getUserByEmail = getUserByEmail;

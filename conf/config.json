@@ -16,5 +16,14 @@
 			"port": "27017"
 		}
 
+	},
+	"session":{
+		"secret" : "mysecret",
+		"maxAgeServer" : "30",
+		"maxAgeClient" : "30",
+		"httpOnly" : "true",
+		"secure" : "false",
+		"saveUninitialized" : "false",
+		"resave" : "true"
 	}
 }
