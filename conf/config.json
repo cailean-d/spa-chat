@@ -18,7 +18,7 @@
 
 	},
 	"auth" : {
-		"type" : "jwt",
+		"type" : "session",
 		"types" : "session, jwt, both",
 		"session":{
 			"secret" : "mysecret",

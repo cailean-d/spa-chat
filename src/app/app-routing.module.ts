@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { MainTemplateComponent } from './main-template/main-template.component';
-import { LoginMenuComponent } from './login-menu/login-menu.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { MainTemplateComponent } from './views/main-template/main-template.component';
+import { LoginMenuComponent } from './views/login-menu/login-menu.component';
+import { NotFoundComponent } from './views/not-found/not-found.component';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: MainTemplateComponent, pathMatch: 'full'/* , canActivate: [LoginService] */, children: [
+  { path: '', component: MainTemplateComponent, pathMatch: 'full', canActivate: [AuthGuard], children: [
     // { path: '', component: HeaderComponent, outlet: 'app-header' },
     // { path: '', component: MainProfileComponent, outlet: 'app-main' },
     // { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },

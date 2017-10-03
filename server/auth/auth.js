@@ -133,7 +133,7 @@ function createSession(req, res, doc){
     req.session.firstname = doc.firstname;
     req.session.lastname = doc.lastname;
     req.session.userinfo = userinfo(req);
-    res.status(200).json({ status: 200, type: 'session', message: `User [${doc.id}] logined!!!`});
+    res.status(200).json({ status: 200, type: 'session', message: `User [${doc.id}] created and logined!!!`});
 }
 
 function createJWT(req, res, doc){
