@@ -1,4 +1,3 @@
-import { timeInterval } from 'rxjs/operator/timeInterval';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../services/auth.service';

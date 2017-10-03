@@ -20,13 +20,18 @@ import { LoginMenuComponent } from './views/login-menu/login-menu.component';
 import { NotFoundComponent } from './views/not-found/not-found.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthService } from './services/auth.service';
+import { MainMenuComponent } from './views/main-menu/main-menu.component';
+import { HeaderComponent } from './views/header/header.component';
+import { ApiService } from './services/api.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainTemplateComponent,
     LoginMenuComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    MainMenuComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +46,7 @@ import { AuthService } from './services/auth.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [AuthGuard, AuthService, {provide: BrowserXhr, useClass: NgProgressBrowserXhr}],
+  providers: [AuthGuard, AuthService, ApiService, {provide: BrowserXhr, useClass: NgProgressBrowserXhr}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

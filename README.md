@@ -2,7 +2,7 @@
 
 **The application components:**
 
-- [MongoDB](https://www.mongodb.com) - free and open-source cross-platform document-oriented NoSQL database program.
+- [MongoDB](https://www.mongodb.com) - free and open-source cross-platform document-oriented NoSQL database.
 - [Express](https://github.com/expressjs/express) - minimal and flexible Node.JS web application framework.
 - [Angular](https://angular.io) -  typeScript-based open-source front-end web application platform.
 - [NodeJS](https://nodejs.org/en/) - javaScript runtime built on Chrome's V8 JavaScript engine.

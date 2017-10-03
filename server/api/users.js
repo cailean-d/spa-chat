@@ -32,6 +32,20 @@ function getUser(req, res){
     })     
 }
 
+function getMyProfile(req, res){
+    database.getUser(req.session.userid, function(err, doc){
+        if (err){
+            console.log(err);
+            res.status(500).json({ status: 500, message: 'Cannot find user'}); 
+        } else if (!doc){
+            res.status(404).json({ status: 404, message: 'User not found'});
+        } 
+        else{
+            res.status(200).json(doc);
+        }
+    }) 
+}
+
 
 
 function updateUser(req, res){
@@ -114,3 +128,4 @@ module.exports.updateUser = updateUser;
 module.exports.deleteUser = deleteUser;        
 module.exports.getUsers = getUsers;
 module.exports.getCount = getCount;
+module.exports.getMyProfile = getMyProfile;

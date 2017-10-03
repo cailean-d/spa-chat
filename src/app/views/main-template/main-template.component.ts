@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-main-template',
@@ -7,13 +7,28 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./main-template.component.scss'],
 })
 export class MainTemplateComponent implements OnInit {
-  constructor() {}
+
+  UserData: object;
+
+  constructor(private api: ApiService) {}
 
   ngOnInit() {
+    this.getUserData();
   }
 
   disableMenu(event){
     event.preventDefault();
+  }
+
+  getUserData(){
+    this.api.getMyProfile((err, data) => {
+      if(err){
+        console.log(err);
+      } else {
+        this.UserData = data;
+        console.log(this.UserData);
+      }
+  })
   }
   
 }

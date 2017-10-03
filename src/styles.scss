@@ -1,5 +1,10 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+@font-face {
+    font-family: Micra;
+    src: url('./assets/fonts/micra.ttf');
+}
+
 body{
     padding: 0;
     margin: 0;
