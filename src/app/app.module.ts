@@ -23,6 +23,12 @@ import { AuthService } from './services/auth.service';
 import { MainMenuComponent } from './views/main-menu/main-menu.component';
 import { HeaderComponent } from './views/header/header.component';
 import { ApiService } from './services/api.service';
+import { OwnProfileComponent } from './views/own-profile/own-profile.component';
+import { GeneralChatComponent } from './views/general-chat/general-chat.component';
+import { DialogsComponent } from './views/dialogs/dialogs.component';
+import { FriendsComponent } from './views/friends/friends.component';
+import { SettingsComponent } from './views/settings/settings.component';
+import { ChatOnlineComponent } from './views/chat-online/chat-online.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +37,13 @@ import { ApiService } from './services/api.service';
     LoginMenuComponent,
     NotFoundComponent,
     MainMenuComponent,
-    HeaderComponent
+    HeaderComponent,
+    OwnProfileComponent,
+    GeneralChatComponent,
+    DialogsComponent,
+    FriendsComponent,
+    SettingsComponent,
+    ChatOnlineComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +58,14 @@ import { ApiService } from './services/api.service';
     HttpClientModule,
     FormsModule
   ],
-  providers: [AuthGuard, AuthService, ApiService, {provide: BrowserXhr, useClass: NgProgressBrowserXhr}],
+  providers: [
+    AuthGuard, 
+    AuthService, 
+    ApiService, 
+    {provide: 
+      BrowserXhr, 
+      useClass: NgProgressBrowserXhr
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

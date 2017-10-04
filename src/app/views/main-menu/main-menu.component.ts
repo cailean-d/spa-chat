@@ -9,12 +9,19 @@ import { Router } from '@angular/router';
 })
 export class MainMenuComponent implements OnInit {
 
+  homeClass: string;
+
   constructor(
     private AuthService: AuthService,
     private router: Router
   ) { }
 
   ngOnInit() {
+    if(this.router.url == '/'){
+      this.homeClass = 'active';
+    } else {
+      this.homeClass = '';
+    }
   }
 
   logout(event){

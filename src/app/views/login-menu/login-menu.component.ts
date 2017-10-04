@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class LoginMenuComponent implements OnInit {
 
   isShowLogin: boolean = true;
+  windowHash: string = window.location.hash;
   welcomeTitle: string = 'Добро пожаловать';
   loginTitle: string  = 'Регистрация';
 
@@ -23,6 +24,7 @@ export class LoginMenuComponent implements OnInit {
 
   ngOnInit() {
     this.title.setTitle(this.welcomeTitle);
+    if(this.windowHash) this.isShowLogin = false;
   }
   switchTitle(){
     if(this.isShowLogin){
@@ -34,11 +36,13 @@ export class LoginMenuComponent implements OnInit {
   showLogin():void{
     this.isShowLogin = true;
     this.switchTitle();
+    window.location.hash = '';
   }
 
   showReg(): void{
     this.isShowLogin = false;
     this.switchTitle();
+    window.location.hash = 'reg';
   }
 
   register(regForm: NgForm){
