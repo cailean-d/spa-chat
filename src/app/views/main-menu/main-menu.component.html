@@ -1,40 +1,38 @@
 <nav class="main-menu">
-  <ul>
-    <li [ngClass]="homeClass">
+  <a routerLink="/" [ngClass]="homeClass">
+    <div class='inner'>
       <i class="fa fa-home" aria-hidden="true"></i>
-      <a routerLink="/" >
-        <span>Home</span>
-      </a>
-    </li>
-    <li routerLinkActive="active">
+      <span>Home</span>
+    </div>
+  </a>
+  <a routerLink="/friends" routerLinkActive="active">
+    <div class='inner'>
       <i class="fa fa-users" aria-hidden="true"></i>
-      <a routerLink="/friends" >
-        <span>Friends</span>
-      </a>
-    </li>
-    <li routerLinkActive="active">
+      <span>Friends</span>
+    </div>
+  </a>
+  <a routerLink="/general_chat" routerLinkActive="active">
+    <div class='inner'>
       <i class="fa fa-comments" aria-hidden="true"></i>
-    <a routerLink="/general_chat">
       <span>General Chat</span>
-    </a>
-  </li>
-    <li routerLinkActive="active">
+    </div>
+  </a>
+  <a routerLink="/dialogs" routerLinkActive="active">
+    <div class='inner'>
       <i class="fa fa-envelope" aria-hidden="true"></i>
-      <a routerLink="/dialogs">
-        <span>Dialogs</span>
-      </a>
-    </li>
-    <li routerLinkActive="active">
+      <span>Dialogs</span>
+    </div>
+  </a>
+  <a routerLink="/settings" routerLinkActive="active">
+    <div class='inner'>
       <i class="fa fa-cog" aria-hidden="true"></i>
-      <a routerLink="/settings">
-        <span>Settings</span>
-      </a>
-    </li>
-    <li>
+      <span>Settings</span>
+    </div>
+  </a>
+  <a (click)='logout($event)'>
+    <div class='inner'>
       <i class="fa fa-sign-out" aria-hidden="true"></i>
-      <a href="" (click)='logout($event)'>
-        <span>Log out</span>
-      </a>
-    </li>
-  </ul>
+      <span>Log out</span>
+    </div>
+  </a>
 </nav>
