@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-main-template',
@@ -10,10 +11,15 @@ export class MainTemplateComponent implements OnInit {
 
   UserData: object;
 
-  constructor(private api: ApiService) {}
+  constructor(
+  private api: ApiService,
+  private AuthService: AuthService
+) {}
 
   ngOnInit() {
-    this.getUserData();
+    if(this.AuthService.isAuth){
+      this.getUserData();
+    }
   }
 
   disableMenu(event){

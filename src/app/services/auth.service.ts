@@ -10,6 +10,8 @@ interface ItemsResponse {
 
 @Injectable()
 export class AuthService {
+
+  isAuth:boolean; 
   
   private regURL: string = 'auth/reg';
   private loginURL: string = 'auth/login';
@@ -25,10 +27,12 @@ export class AuthService {
       this.http.post<ItemsResponse>(this.checkURL, {})
       .toPromise().then(
         res => { 
+          this.isAuth = true;
           callback(null, res);
           resolve(res.message);
         },
         err => {
+          this.isAuth = false;
           callback(err.error);
           resolve(err.error.message);
         }
@@ -40,6 +44,7 @@ export class AuthService {
      this.http.post<ItemsResponse>(this.loginURL, data, {headers : this.headers})
      .toPromise().then(
        res => { 
+        this.isAuth = true;
          callback(null, res);
        },
        err => {
@@ -52,6 +57,7 @@ export class AuthService {
     this.http.post<ItemsResponse>(this.regURL, data, {headers : this.headers})
     .toPromise().then(
       res => { 
+        this.isAuth = true;
         callback(null, res);
       },
       err => {
@@ -64,6 +70,7 @@ export class AuthService {
     this.http.post<ItemsResponse>(this.logoutURL, {})
     .toPromise().then(
       res => { 
+        this.isAuth = false;
         callback(null, res);
       },
       err => {
