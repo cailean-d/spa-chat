@@ -19,24 +19,12 @@ export class MainTemplateComponent implements OnInit {
 
   ngOnInit() {
     if(this.AuthService.isAuth && !this.AppComponent.DataIsReceived){
-      this.getUserData();
+      this.AppComponent.getUserData();
     }
   }
 
   disableMenu(event){
     event.preventDefault();
-  }
-
-  getUserData(){
-    this.ApiService.getMyProfile((err, data) => {
-      if(err){
-        console.log(err);
-      } else {
-        this.AppComponent.UserData = data;
-        this.AppComponent.DataIsReceived = true;
-        console.log(this.AppComponent.UserData);
-      }
-    })
   }
   
 }

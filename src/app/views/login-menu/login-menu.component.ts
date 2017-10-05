@@ -1,3 +1,4 @@
+import { AppComponent } from '../../app.component';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../services/auth.service';
@@ -20,6 +21,7 @@ export class LoginMenuComponent implements OnInit {
     private title: Title,
     private AuthService: AuthService,
     private router: Router,
+    private AppComponent: AppComponent
   ) { }
 
   ngOnInit() {
@@ -50,6 +52,7 @@ export class LoginMenuComponent implements OnInit {
         if(err){
           console.log(err);
         } else {
+          this.AppComponent.getUserData();
           this.router.navigate(['/']);
         }
     })
@@ -59,6 +62,7 @@ export class LoginMenuComponent implements OnInit {
         if (err){
           console.log(err);
         } else {
+          this.AppComponent.getUserData();
           this.router.navigate(['/']);
         }
     });

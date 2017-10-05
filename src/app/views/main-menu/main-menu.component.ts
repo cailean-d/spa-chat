@@ -1,3 +1,4 @@
+import { AppComponent } from '../../app.component';
 import { AuthService } from '../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -13,7 +14,8 @@ export class MainMenuComponent implements OnInit {
 
   constructor(
     private AuthService: AuthService,
-    private router: Router
+    private router: Router,
+    private AppComponent: AppComponent
   ) { }
 
   ngOnInit() {
@@ -30,6 +32,7 @@ export class MainMenuComponent implements OnInit {
         if(err){
           console.log(err);
         } else {
+          this.AppComponent.DataIsReceived = false;
           this.router.navigate(['/login']);
         }
     })

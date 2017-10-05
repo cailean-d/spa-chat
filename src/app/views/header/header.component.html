@@ -1,3 +1,41 @@
-<p>
-  header works!
-</p>
+<div class="header">
+  <div class="header-user">
+      <div class="nickname">{{userFullName}}</div>
+      <div class="statusBlock">
+        <div class="current" (click)='toggleStatusList(statusList)'> 
+          <div class="ico" title="online">
+            <div class="online"> </div>
+          </div>
+        </div>
+        <ul class="statusList" #statusList (mouseleave)='closeStatusList(statusList)'>
+          <li class="status">
+            <div class="ico" title="online">
+              <div class="online"> </div>
+            </div>
+          </li>
+          <li class="status">
+            <div class="ico" title="afk">
+              <div class="afk"> </div>
+            </div>
+          </li>
+          <li class="status">
+            <div class="ico" title="busy">
+              <div class="busy"> </div>
+            </div>
+          </li>
+          <li class="status">
+            <div class="ico" title="invisible">
+              <div class="invisible"> </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="locale">
+      <div class="current" (click)='toggleLangList(langList)'><img src="../../../assets/img/flags/us.png"/></div>
+      <ul class="langList" #langList (mouseleave)='closeLangList(langList)'>
+        <li class="lang en" title="en"><img src="../../../assets/img/flags/us.png"/></li>
+        <li class="lang ru" title="ru"><img src="../../../assets/img/flags/ru.png"/></li>
+      </ul>
+    </div>
+</div>
