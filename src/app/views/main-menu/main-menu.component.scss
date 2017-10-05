@@ -43,6 +43,10 @@
         transition: background-color 0.5s cubic-bezier(0.47, 0, 0.745, 0.715); 
         transition: padding 0.3s cubic-bezier(0.47, 0, 0.745, 0.715);   
 
+        @media screen and (max-width: 600px ) {
+            padding: 5px;
+        }
+
         &:hover:not(.active){
             color: #ffffff;
             text-shadow: 0 0 5px #000;
@@ -55,6 +59,19 @@
                 background: rgba(213,213,213,0.25);
             }
         }
+
+        span{
+            @media screen and (max-width: 600px ) {
+                display: none;
+            }   
+        }
+        .inner{
+            @media screen and (max-width: 600px ) {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }  
+        }
     }
     
     .active{
@@ -64,7 +81,10 @@
         background: linear-gradient(to right,  rgba(180, 18, 18, 0) 0%,rgba(207,207,207,0.1) 19%,rgba(130,130,130,0.4) 49%,rgba(0,0,0,0.9) 100%);     
 
         @media screen and (max-width: 600px ) {
-            background: #000;
+            background: rgb(149,149,149);
+            background: -moz-linear-gradient(left,  rgba(149,149,149,1) 0%, rgba(13,13,13,1) 46%, rgba(1,1,1,1) 50%, rgba(10,10,10,1) 53%, rgba(78,78,78,1) 76%, rgba(56,56,56,1) 87%, rgba(27,27,27,1) 100%);
+            background: -webkit-linear-gradient(left,  rgba(149,149,149,1) 0%,rgba(13,13,13,1) 46%,rgba(1,1,1,1) 50%,rgba(10,10,10,1) 53%,rgba(78,78,78,1) 76%,rgba(56,56,56,1) 87%,rgba(27,27,27,1) 100%);
+            background: linear-gradient(to right,  rgba(149,149,149,1) 0%,rgba(13,13,13,1) 46%,rgba(1,1,1,1) 50%,rgba(10,10,10,1) 53%,rgba(78,78,78,1) 76%,rgba(56,56,56,1) 87%,rgba(27,27,27,1) 100%);
         }
     }
 }

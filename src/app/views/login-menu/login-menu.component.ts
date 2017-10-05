@@ -19,7 +19,7 @@ export class LoginMenuComponent implements OnInit {
   constructor(
     private title: Title,
     private AuthService: AuthService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {

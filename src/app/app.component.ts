@@ -20,5 +20,6 @@ import { NgProgressService } from 'ngx-progressbar';
             `
 })
 export class AppComponent {
-
+  UserData: object;
+  DataIsReceived:boolean;
 }
