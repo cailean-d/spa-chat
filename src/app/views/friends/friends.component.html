@@ -1,3 +1,25 @@
-<p>
-  friends works!
-</p>
+<div class="tabs-buttons">
+  <a class="all-friends" (click)='click_tab($event)'>
+    All Friends
+    <span class="count">{{friendsCount}}</span>
+  </a>
+  <a class="online-friends" (click)='click_tab($event)'>
+    Online
+    <span class="count">{{friendsOnlineCount}}</span>
+  </a>
+  <a class="invites" (click)='click_tab($event)'>
+    Invites
+    <span class="count">{{invitesCount}}</span>
+  </a>
+</div>
+<div class="tabs-body">
+  <div class="all-friends">
+    <h2>You have no friends</h2>
+  </div>
+  <div class="online-friends">
+    <h2>You have no friends online</h2>
+  </div>
+  <div class="invites">
+    <h2>You have no invites</h2>
+  </div>
+</div>

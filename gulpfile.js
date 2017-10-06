@@ -57,6 +57,7 @@ gulp.task('build', ['ng-build', 'clean-prod'], function(){
   return gulp.src([
     './client/**/*', 
     './server/**/*', 
+    './conf/**/*', 
     './index.js', 
     './package.json',
     './package-lock.json',
