@@ -25,6 +25,7 @@ export class ApiService {
     this.http.get<UserResponse>(this.getMyProfileURL, {})
     .toPromise().then(
       res => { 
+        console.log('qq');
         callback(null, res);
       },
       err => {

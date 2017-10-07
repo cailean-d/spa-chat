@@ -12,6 +12,7 @@ userSchema = new Schema({
     lastname: {type: String, required: true},
     email: {type: String, required: true, unique : "email already exists"},
     password: {type: String, required: true},
+    avatar: {type: String, default: 'default.jpg'},
     gender: {type: String, default: null},
     date: {type: Date, default: Date.now}
 });

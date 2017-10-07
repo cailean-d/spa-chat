@@ -17,36 +17,30 @@ const routes: Routes = [
     { path: '', component: HeaderComponent, outlet: 'app-header' },
     { path: '', component: OwnProfileComponent, outlet: 'app-main' },
     { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
-    // { path: '', component: FooterComponent, outlet: 'app-footer' }
   ]},
    { path: 'login', component: MainTemplateComponent, children: [
     // { path: '', component: LoginInformationComponent, outlet: 'app-main' },
     { path: '', component: LoginMenuComponent, outlet: 'app-aside-left' }
-    // { path: '', component: FooterComponent, outlet: 'app-footer' }
   ]},
   { path: 'friends', component: MainTemplateComponent, canActivate: [AuthGuard], children: [
     { path: '', component: HeaderComponent, outlet: 'app-header' },
     { path: '', component: FriendsComponent, outlet: 'app-main' },
     { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
-    // { path: '', component: FooterComponent, outlet: 'app-footer' }
   ]},
   { path: 'general_chat', component: MainTemplateComponent, canActivate: [AuthGuard], children: [
     { path: '', component: HeaderComponent, outlet: 'app-header' },
     { path: '', component: GeneralChatComponent, outlet: 'app-main' },
     { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
-    // { path: '', component: FooterComponent, outlet: 'app-footer' }
   ]},
   { path: 'settings', component: MainTemplateComponent, canActivate: [AuthGuard], children: [
     { path: '', component: HeaderComponent, outlet: 'app-header' },
     { path: '', component: SettingsComponent, outlet: 'app-main' },
     { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
-    // { path: '', component: FooterComponent, outlet: 'app-footer' }
   ]},
   { path: 'dialogs', component: MainTemplateComponent, canActivate: [AuthGuard], children: [
     { path: '', component: HeaderComponent, outlet: 'app-header' },
     { path: '', component: DialogsComponent, outlet: 'app-main' },
     { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
-    // { path: '', component: FooterComponent, outlet: 'app-footer' }
   ]},
   { path: 'pagenotfound', component: MainTemplateComponent, children: [
     { path: '', component: NotFoundComponent, outlet: 'app-main' }

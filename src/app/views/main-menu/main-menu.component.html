@@ -1,35 +1,35 @@
 <nav class="main-menu">
-  <a routerLink="/" [ngClass]="homeClass">
+  <a routerLink="/" [ngClass]="homeClass" draggable="false">
     <div class='inner'>
       <i class="fa fa-home" aria-hidden="true"></i>
       <span>Home</span>
     </div>
   </a>
-  <a routerLink="/friends" routerLinkActive="active">
+  <a routerLink="/friends" routerLinkActive="active" draggable="false">
     <div class='inner'>
       <i class="fa fa-users" aria-hidden="true"></i>
       <span>Friends</span>
     </div>
   </a>
-  <a routerLink="/general_chat" routerLinkActive="active">
+  <a routerLink="/general_chat" routerLinkActive="active" draggable="false">
     <div class='inner'>
       <i class="fa fa-comments" aria-hidden="true"></i>
       <span>General Chat</span>
     </div>
   </a>
-  <a routerLink="/dialogs" routerLinkActive="active">
+  <a routerLink="/dialogs" routerLinkActive="active" draggable="false">
     <div class='inner'>
       <i class="fa fa-envelope" aria-hidden="true"></i>
       <span>Dialogs</span>
     </div>
   </a>
-  <a routerLink="/settings" routerLinkActive="active">
+  <a routerLink="/settings" routerLinkActive="active" draggable="false">
     <div class='inner'>
       <i class="fa fa-cog" aria-hidden="true"></i>
       <span>Settings</span>
     </div>
   </a>
-  <a (click)='logout($event)'>
+  <a (click)='logout($event)' draggable="false">
     <div class='inner'>
       <i class="fa fa-sign-out" aria-hidden="true"></i>
       <span>Log out</span>

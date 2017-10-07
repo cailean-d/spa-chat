@@ -32,7 +32,7 @@ export class MainMenuComponent implements OnInit {
         if(err){
           console.log(err);
         } else {
-          this.AppComponent.DataIsReceived = false;
+          this.AppComponent.removeLocalStorage();
           this.router.navigate(['/login']);
         }
     })

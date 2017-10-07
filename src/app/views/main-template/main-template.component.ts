@@ -18,7 +18,7 @@ export class MainTemplateComponent implements OnInit {
 ) {}
 
   ngOnInit() {
-    if(this.AuthService.isAuth && !this.AppComponent.DataIsReceived){
+    if(this.AuthService.isAuth){
       this.AppComponent.getUserData();
     }
   }

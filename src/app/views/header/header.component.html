@@ -1,6 +1,8 @@
 <div class="header">
   <div class="header-user">
-      <div class="nickname">{{userFullName}}</div>
+      <div class="thumbnail" title="{{userFullName}}">
+        <img src="assets/img/avatar/{{userAvatar}}"/>
+      </div>
       <div class="statusBlock">
         <div class="current" (click)='toggleStatusList(statusList)'> 
           <div class="ico" title="online">

@@ -4,6 +4,7 @@ import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
 import { HttpModule, BrowserXhr } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule }   from '@angular/forms';
+import { LocalStorageModule } from 'angular-2-local-storage';
 
 // UI modules
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome'
@@ -56,7 +57,11 @@ import { ChatOnlineComponent } from './views/chat-online/chat-online.component';
     MdInputModule,
     MdButtonModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    LocalStorageModule.withConfig({
+      prefix: 'user',
+      storageType: 'localStorage'
+  })
   ],
   providers: [
     AuthGuard, 

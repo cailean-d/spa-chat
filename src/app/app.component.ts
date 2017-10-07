@@ -2,13 +2,7 @@ import { ApiService } from './services/api.service';
 import { Component, OnInit } from '@angular/core';
 import { NgProgressService } from 'ngx-progressbar';
 import { AuthService } from './services/auth.service';
-
-interface UserData {
-  id: number;
-  firstname: string;
-  lastname: string;
-  gender: string;
-}
+import { LocalStorageService } from 'angular-2-local-storage';
 
 @Component({
   selector: 'app-root',
@@ -30,13 +24,10 @@ interface UserData {
 })
 export class AppComponent implements OnInit {
 
-  isLogined: boolean;
-  UserData: UserData;
-  DataIsReceived:boolean;
-
   constructor(
     private AuthService: AuthService,
     private ApiService: ApiService,
+    private localStorageService: LocalStorageService
   ) {}
 
   ngOnInit() {
@@ -54,13 +45,30 @@ export class AppComponent implements OnInit {
   }
 
   getUserData(){
-    this.ApiService.getMyProfile((err, data) => {
-      if(err){
-        console.log(err);
-      } else {
-        this.UserData = data;
-        this.DataIsReceived = true;
-      }
-    })
+    if(!this.localStorageService.get('id')){
+      this.ApiService.getMyProfile((err, data) => {
+        if(err){
+          console.log(err);
+        } else {
+          this.setLocalStorage(data);
+        }
+      })
+    }
+  }
+
+  setLocalStorage(data): void{
+    this.localStorageService.set('id',data.id);
+    this.localStorageService.set('firstname', data.firstname);
+    this.localStorageService.set('lastname', data.lastname);
+    this.localStorageService.set('avatar',data.avatar);
+    this.localStorageService.set('gender', data.gender);
+  }
+
+  removeLocalStorage(): void{
+    this.localStorageService.remove('id');
+    this.localStorageService.remove('firstname');
+    this.localStorageService.remove('lastname');
+    this.localStorageService.remove('avatar');
+    this.localStorageService.remove('gender');
   }
 }

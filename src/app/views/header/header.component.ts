@@ -1,5 +1,6 @@
 import { AppComponent } from '../../app.component';
 import { Component, OnInit } from '@angular/core';
+import { LocalStorageService } from 'angular-2-local-storage';
 declare let jquery:any;
 declare let $:any;
 
@@ -10,22 +11,40 @@ declare let $:any;
 })
 export class HeaderComponent implements OnInit {
 
-  userFirstName: string;
-  userLastName: string;
-  userFullName: string;
+  userFirstName: any;
+  userLastName: any;
+  userFullName: any;
+  userAvatar: any;
 
   constructor(
-    private AppComponent: AppComponent
+    private AppComponent: AppComponent,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit() {
-    this.userFirstName = this.AppComponent.UserData.firstname;
-    this.userLastName = this.AppComponent.UserData.lastname;
-    this.UserFullName();
+    this.getData();
   }
 
   UserFullName(){
     this.userFullName = this.userFirstName + ' ' + this.userLastName;
+  }
+
+  getData(){
+    if (!this.localStorageService.get('id')){
+       this.AppComponent.getUserData();
+       this.setData();
+       this.UserFullName();
+    } else {
+       this.setData();
+       this.UserFullName();
+    }
+}
+
+
+  setData(){
+    this.userFirstName = this.localStorageService.get('firstname');
+    this.userLastName = this.localStorageService.get('lastname');
+    this.userAvatar = this.localStorageService.get('avatar');
   }
 
   toggleStatusList(list){
