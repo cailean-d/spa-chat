@@ -64,7 +64,7 @@ export class AuthService {
         callback(err.error);
       }
     );
- }
+  }
 
  logoutAuth(callback: Function):any{
     this.http.post<ItemsResponse>(this.logoutURL, {})

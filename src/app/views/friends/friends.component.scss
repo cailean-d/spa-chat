@@ -7,15 +7,23 @@
     user-select: none;
     
     a{
+        width: 33.33333%;
         padding: 15px;
         margin: 0;
         background: none;
         border: none;
         border-bottom: 3px solid transparent;
+        border-right: 1px solid #EBEBEB;
         text-decoration: none;
         font-weight: 400;
         font-size: 1em;
         color: #2A2A2A;
+        display: flex;
+        justify-content: center;
+
+        &:last-child{
+            border-right: none;
+        }
         
         cursor: pointer;
         

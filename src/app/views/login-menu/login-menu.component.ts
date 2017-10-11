@@ -50,7 +50,8 @@ export class LoginMenuComponent implements OnInit {
   register(regForm: NgForm){
     this.AuthService.regAuth(regForm.value, (err, data) => {
         if(err){
-          console.log(err);
+          let errObj = JSON.parse(err);
+          this.AppComponent.showError(errObj.message);
         } else {
           this.AppComponent.getUserData();
           this.router.navigate(['/']);
@@ -60,7 +61,8 @@ export class LoginMenuComponent implements OnInit {
   login(loginForm: NgForm){
     this.AuthService.loginAuth(loginForm.value, (err, data) => {
         if (err){
-          console.log(err);
+          let errObj = JSON.parse(err);
+          this.AppComponent.showError(errObj.message);
         } else {
           this.AppComponent.getUserData();
           this.router.navigate(['/']);

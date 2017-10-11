@@ -59,11 +59,8 @@ function loginUser(req, res){
 function registerUser(req, res){
     let data = req.body; 
     
-    if(!data.firstname){
-        return res.status(400).json({ status: 400, message: 'Firstname is required'}); 
-    }
-    if(!data.lastname){
-        return res.status(400).json({ status: 400, message: 'Lastname is required'}); 
+    if(!data.nickname){
+        return res.status(400).json({ status: 400, message: 'Nickname is required'}); 
     }
     if (!data.email){
         return res.status(400).json({ status: 400, message: 'Email is required'}); 
@@ -78,11 +75,11 @@ function registerUser(req, res){
             console.log(err);
             res.status(500).json({ status: 500, message: 'Cannot create user!'}); 
         } else {
-            database.registerUser(data.firstname, data.lastname, data.email, bcryptedPassword, 
+            database.registerUser(data.nickname, data.email, bcryptedPassword, 
                 function(err, doc, affected){
                     if(err){
                         console.log(err);
-                        res.status(400).json({ status: 400, message: 'Email already exists!'}); 
+                        res.status(400).json({ status: 400, message: err.message}); 
                     } else {
                         if(config.auth.type == 'session'){
                             createSession(req, res, doc);

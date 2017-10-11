@@ -1,157 +1,353 @@
 <div class="profile">
     <div class="row">
       <div class="thumbnail">
-        <img src="assets/img/avatar/{{avatar}}" title="change avatar">
+        <label for="avatar">
+            <img src="assets/img/avatar/{{avatar}}" title="change avatar">
+        </label>
+        <div class="nickname">
+            {{nickname}}
+        </div>
       </div>
       <div class="right">
         <div class="block">
             <h3>Basic Information</h3>
-            <div class="info-block">
+            <div class="id info-block">
               <div class="title">
-                <i class="fa fa-id-badge" aria-hidden="true"></i>
-                ID
+                  <span>
+                    <i class="fa fa-id-badge" aria-hidden="true"></i>
+                    ID
+                  </span>
               </div>
               <div class="content">
                   {{id}}
               </div>
             </div>
-            <div class="info-block">
+            <div class="firstname info-block">
               <div class="title">
-                <i class="fa fa-user" aria-hidden="true"></i>
-                Full Name
+                <span>
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    Firstname
+                </span>
               </div>
-              <div class="content">
-                  {{firstname}} {{lastname}}
+              <div class="body">
+                    <div class="info">
+                        <div class="content">
+                           {{firstname}}
+                        </div>
+                        <div class="edit edited" title='edit'>
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="content">
+                            <input type="text" pInputText [(ngModel)]="firstname" maxlength='15'/>
+                        </div>
+                        <div class="save">
+                            <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
+                            <i class="fa fa-ban cancel" aria-hidden="true"></i>
+                         </div>
+                    </div>
               </div>
-              <div class="edit" title='edit'>
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
+            </div>
+            <div class="lastname info-block">
+                <div class="title">
+                    <span>
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        Lastname
+                    </span>
+                </div>
+                <div class="body">
+                        <div class="info">
+                            <div class="content">
+                                {{lastname}}
+                            </div>
+                            <div class="edit edited" title='edit'>
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="update">
+                            <div class="content">
+                                <input type="text" pInputText [(ngModel)]="lastname" maxlength='15'/>
+                            </div>
+                            <div class="save">
+                                <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
+                                <i class="fa fa-ban cancel" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            <div class="gender info-block">
+              <div class="title">
+                  <span>
+                        <i class="fa fa-venus-mars" aria-hidden="true"></i>
+                        Gender
+                  </span>
+              </div>
+              <div class="body">
+                    <div class="info">
+                        <div class="content">
+                            {{gender}}
+                        </div>
+                        <div class="edit edited" title='edit'>
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="content gender">
+                                <p-radioButton name="groupname" label="Male" value="Male" class="radio" [(ngModel)]="gender"></p-radioButton>
+                                <p-radioButton name="groupname" label="Female" value="Female" [(ngModel)]="gender"></p-radioButton>
+                        </div>
+                        <div class="save">
+                            <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
+                            <i class="fa fa-ban cancel" aria-hidden="true"></i>
+                         </div>
+                    </div>
+              </div>
+            </div>
+            <div class="email info-block">
+                <div class="title">
+                    <span>
+                        <i class="fa fa-id-badge" aria-hidden="true"></i>
+                        Email
+                    </span>
+                </div>
+                <div class="content">
+                    {{email}}
+                </div>
+            </div>
+            <div class="password info-block">
+              <div class="title">
+                  <span>
+                    <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                    Password   
+                </span>  
+              </div>
+              <div class="body">
+                    <div class="info">
+                        <div class="content">
+                            {{password}}
+                        </div>
+                        <div class="edit edited" title='edit'>
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="content">
+                            <input placeholder="old password" class="pass" type="password" pInputText [(ngModel)]="oldpassword" maxlength='30'/>
+                            <input placeholder="new password" type="password" pInputText [(ngModel)]="newpassword" maxlength='30'/>
+                        </div>
+                        <div class="save">
+                            <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
+                            <i class="fa fa-ban cancel" aria-hidden="true"></i>
+                        </div>
+                    </div>
               </div>
             </div>
             <div class="info-block">
               <div class="title">
-                <i class="fa fa-venus-mars" aria-hidden="true"></i>
-                Gender
+                  <span>
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                        Registration
+                  </span>
               </div>
               <div class="content">
-                  {{gender}}
-              </div>
-              <div class="edit" title='edit'>
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
-              </div>
-            </div>
-            <div class="info-block">
-              <div class="title">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-                Email
-              </div>
-              <div class="content">
-                {{email}}
-              </div>
-              <div class="edit" title='edit'>
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
-              </div>
-            </div>
-            <div class="info-block">
-              <div class="title">
-                <i class="fa fa-unlock-alt" aria-hidden="true"></i>
-                Password
-              </div>
-              <div class="content">
-                  {{password}}
-              </div>
-              <div class="edit"  title='edit'>
-                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                  {{registration}}
               </div>
             </div>
           </div>
           <div class="block">
             <h3>Additional Information</h3>
-            <div class="info-block">
+            <div class="about info-block">
                 <div class="title">
-                  <i class="fa fa-info-circle" aria-hidden="true"></i>
-                  About
+                    <span>
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        About
+                    </span>
                 </div>
-                <div class="content">
-                 {{about}}
-                </div>
-                <div class="edit"  title='edit'>
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                <div class="body">
+                    <div class="info">
+                        <div class="content">
+                            {{about}}
+                        </div>
+                        <div class="edit edited" title='edit'>
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="content">
+                                <textarea [rows]="3" pInputTextarea autoResize="autoResize" maxlength='255' [(ngModel)]="about"></textarea>
+                        </div>
+                        <div class="save">
+                            <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
+                            <i class="fa fa-ban cancel" aria-hidden="true"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="info-block">
+            <div class="birthday info-block">
                 <div class="title">
-                  <i class="fa fa-birthday-cake" aria-hidden="true"></i>
-                  Birthday
+                    <span>
+                        <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+                        Birthday
+                    </span>
                 </div>
-                <div class="content">
-                    {{birthday}}
-                </div>
-                <div class="edit"  title='edit'>
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                <div class="body">
+                    <div class="info">
+                        <div class="content">
+                            {{birthday}}
+                        </div>
+                        <div class="edit edited" title='edit'>
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="content">
+                                <p-calendar [(ngModel)]="birthdayDate" readonlyInput="readonlyInput"  [yearNavigator]="true" yearRange="1950:2015" dateFormat="dd.mm.yy"></p-calendar>
+                        </div>
+                        <div class="save">
+                            <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
+                            <i class="fa fa-ban cancel" aria-hidden="true"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="info-block">
+            <div class="phone info-block">
                 <div class="title">
-                  <i class="fa fa-phone" aria-hidden="true"></i>
-                  Phone
+                    <span>
+                        <i class="fa fa-phone" aria-hidden="true"></i>
+                        Phone
+                    </span>
                 </div>
-                <div class="content">
-                    {{phone}}
+                <div class="body">
+                    <div class="info">
+                        <div class="content">
+                            {{phone}}
+                        </div>
+                        <div class="edit edited" title='edit'>
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="content">
+                            <input type="text" pInputText [(ngModel)]="phone" maxlength='15'/>
+                        </div>
+                        <div class="save">
+                            <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
+                            <i class="fa fa-ban cancel" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                  </div>
+            </div>
+            <div class="country info-block">
+                <div class="title">
+                    <span>
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        Country
+                    </span>
                 </div>
-                <div class="edit"  title='edit'>
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                <div class="body">
+                    <div class="info">
+                        <div class="content">
+                            {{country}}
+                        </div>
+                        <div class="edit edited" title='edit'>
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="content">
+                            <input type="text" pInputText [(ngModel)]="country" maxlength='15'/>
+                        </div>
+                        <div class="save">
+                            <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
+                            <i class="fa fa-ban cancel" aria-hidden="true"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="info-block">
+            <div class="city info-block">
                 <div class="title">
-                  <i class="fa fa-home" aria-hidden="true"></i>
-                  Country
+                    <span>
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        City
+                    </span>
                 </div>
-                <div class="content">
-                    {{country}}
-                </div>
-                <div class="edit"  title='edit'>
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                <div class="body">
+                    <div class="info">
+                        <div class="content">
+                            {{city}}
+                        </div>
+                        <div class="edit edited" title='edit'>
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="content">
+                            <input type="text" pInputText [(ngModel)]="city" maxlength='15'/>
+                        </div>
+                        <div class="save">
+                            <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
+                            <i class="fa fa-ban cancel" aria-hidden="true"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="info-block">
+            <div class="language info-block">
                 <div class="title">
-                  <i class="fa fa-home" aria-hidden="true"></i>
-                  City
+                    <span>
+                        <i class="fa fa-language" aria-hidden="true"></i>
+                        Language
+                    </span>
                 </div>
-                <div class="content">
-                    {{city}}
-                </div>
-                <div class="edit"  title='edit'>
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                <div class="body">
+                    <div class="info">
+                        <div class="content">
+                            {{langString}}
+                        </div>
+                        <div class="edit edited" title='edit'>
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="content">
+                            <p-chips [(ngModel)]="language"></p-chips>
+                        </div>
+                        <div class="save">
+                            <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
+                            <i class="fa fa-ban cancel" aria-hidden="true"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="info-block">
+            <div class="website info-block">
                 <div class="title">
-                  <i class="fa fa-language" aria-hidden="true"></i>
-                  Language
+                    <span>
+                        <i class="fa fa-globe" aria-hidden="true"></i>
+                        Website
+                    </span>
                 </div>
-                <div class="content">
-                    {{language}}
-                </div>
-                <div class="edit"  title='edit'>
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
-                </div>
-            </div>
-            <div class="info-block">
-                <div class="title">
-                  <i class="fa fa-globe" aria-hidden="true"></i>
-                  Website
-                </div>
-                <div class="content">
-                    {{website}}
-                </div>
-                <div class="edit"  title='edit'>
-                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                <div class="body">
+                    <div class="info">
+                        <div class="content">
+                            {{website}}
+                        </div>
+                        <div class="edit edited" title='edit'>
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="update">
+                        <div class="content">
+                            <input type="text" pInputText [(ngModel)]="website" maxlength='30'/>
+                        </div>
+                        <div class="save">
+                            <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
+                            <i class="fa fa-ban cancel" aria-hidden="true"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
           </div>
       </div>
     </div>
-
 </div>
+<input type="file" id='avatar'>

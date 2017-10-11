@@ -12,6 +12,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MdFormFieldModule } from '@angular/material';
 import { MdInputModule } from '@angular/material';
 import { MdButtonModule } from '@angular/material';
+import { GrowlModule } from 'primeng/primeng';
+import { CalendarModule } from 'primeng/primeng';
+import { InputTextModule } from 'primeng/primeng';
+import { RadioButtonModule } from 'primeng/primeng';
+import { InputTextareaModule } from 'primeng/primeng';
+import { DropdownModule } from 'primeng/primeng';
+import { ChipsModule } from 'primeng/primeng';
 
 // Custom modules
 import { AppRoutingModule } from './app-routing.module';
@@ -58,6 +65,13 @@ import { ChatOnlineComponent } from './views/chat-online/chat-online.component';
     MdButtonModule,
     HttpClientModule,
     FormsModule,
+    GrowlModule,
+    CalendarModule,
+    InputTextModule,
+    RadioButtonModule,
+    InputTextareaModule,
+    DropdownModule,
+    ChipsModule,
     LocalStorageModule.withConfig({
       prefix: 'user',
       storageType: 'localStorage'

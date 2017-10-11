@@ -1,6 +1,7 @@
 import { AppComponent } from '../../app.component';
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { ApiService } from '../../services/api.service';
 declare let jquery:any;
 declare let $:any;
 
@@ -11,40 +12,46 @@ declare let $:any;
 })
 export class HeaderComponent implements OnInit {
 
-  userFirstName: any;
-  userLastName: any;
-  userFullName: any;
+  userNickName: any;
   userAvatar: any;
 
   constructor(
     private AppComponent: AppComponent,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private ApiService: ApiService
   ) { }
 
   ngOnInit() {
     this.getData();
   }
 
-  UserFullName(){
-    this.userFullName = this.userFirstName + ' ' + this.userLastName;
-  }
 
   getData(){
     if (!this.localStorageService.get('id')){
-       this.AppComponent.getUserData();
-       this.setData();
-       this.UserFullName();
+       this.getUserData();
     } else {
-       this.setData();
-       this.UserFullName();
+       this.setData(null);
     }
 }
 
+  getUserData(){
+    if(!this.localStorageService.get('id')){
+      this.ApiService.getMyProfile((err, data) => {
+        if(err){
+          console.log(err);
+        } else {
+          this.setData(data);
+          this.AppComponent.setLocalStorage(data);
+        }
+      })
+    }
+  }
 
-  setData(){
-    this.userFirstName = this.localStorageService.get('firstname');
-    this.userLastName = this.localStorageService.get('lastname');
-    this.userAvatar = this.localStorageService.get('avatar');
+
+  setData(data){
+    if(!data) data = false;
+    this.userNickName = this.localStorageService.get('nickname') || data.nickname || 'unknown';
+    this.userAvatar = this.localStorageService.get('avatar') || data.avatar || 'unknown';
   }
 
   toggleStatusList(list){

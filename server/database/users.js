@@ -8,12 +8,20 @@ let userSchema, users, user;
 autoIncrement.initialize(database);
 
 userSchema = new Schema({
-    firstname: {type: String, required: true},
-    lastname: {type: String, required: true},
+    nickname: {type: String, required: true, unique: "nickname already exists"},
+    firstname: {type: String, default: null},
+    lastname: {type: String, default: null},
     email: {type: String, required: true, unique : "email already exists"},
     password: {type: String, required: true},
     avatar: {type: String, default: 'default.jpg'},
     gender: {type: String, default: null},
+    about: {type: String, default: null},
+    birthday: {type: Date, default: null},
+    phone: {type: String, default: null},
+    website: {type: String, default: null},
+    country: {type: String, default: null},
+    city: {type: String, default: null},
+    language: {type: Array, default: null},
     date: {type: Date, default: Date.now}
 });
 
@@ -21,11 +29,10 @@ userSchema.plugin(autoIncrement.plugin, { model: 'users', field: 'id',  startAt:
 users = database.model('users', userSchema);
  
  
-function registerUser(firstname, lastname, email, password, callback){
+function registerUser(nickname, email, password, callback){
 
    user = new users({
-        firstname: firstname,
-        lastname: lastname,
+        nickname: nickname,
         email: email,
         password: password,
    });

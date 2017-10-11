@@ -1,5 +1,6 @@
 const database = require('../database/users');
-                         
+const bcrypt = require('bcryptjs');       
+
 
 function getUsers(req, res){
 
@@ -10,8 +11,8 @@ function getUsers(req, res){
 
     database.getUsers(offset, limit, function(err, docs){
         if (err){
-            console.log(err);
-            res.status(500).json({ status: 500, message: 'Cannot get users'}); 
+            console.log(err.message);
+            res.status(500).json({ status: 500, message: err.message}); 
         } else{
             res.status(200).json(docs);
         }
@@ -21,7 +22,7 @@ function getUsers(req, res){
 function getUser(req, res){
     database.getUser(req.params.id, function(err, doc){
         if (err){
-            console.log(err);
+            console.log(err.message);
             res.status(500).json({ status: 500, message: 'Cannot find user'}); 
         } else if (!doc){
             res.status(404).json({ status: 404, message: 'User not found'});
@@ -35,8 +36,8 @@ function getUser(req, res){
 function getMyProfile(req, res){
     database.getUser(req.session.userid, function(err, doc){
         if (err){
-            console.log(err);
-            res.status(500).json({ status: 500, message: 'Cannot find user'}); 
+            console.log(err.message);
+            res.status(500).json({ status: 500, message: err.message}); 
         } else if (!doc){
             res.status(404).json({ status: 404, message: 'User not found'});
         } 
@@ -50,31 +51,58 @@ function getMyProfile(req, res){
 
 function updateUser(req, res){
     let data = req.body; 
-    
-    if(!data.firstname){
-       return res.status(400).json({ status: 400, message: 'Firstname is required'}); 
+
+    if(data.id){
+        return res.status(400).json({ status: 400, message: 'You cannot change your id'}); 
     }
-    if(!data.lastname){
-        return res.status(400).json({ status: 400, message: 'Lastname is required'}); 
+    if(data.date){
+        return res.status(400).json({ status: 400, message: 'You cannot change your registration date'}); 
     }
-    if (!data.email){
-        return res.status(400).json({ status: 400, message: 'Email is required'}); 
-    }
-    if (!data.password){
-        return res.status(400).json({ status: 400, message: 'Password is required'}); 
+    if(data.email){
+        return res.status(400).json({ status: 400, message: 'You cannot change your email'}); 
     }
 
-    let body = {
-        firstname : data.firstname,
-        lastname : data.lastname,
-        email : data.email,
-        password : data.password
-    }
+    if(data.password){
 
-    database.updateUser(req.params.id, body, function(err, doc){
+        database.getUser(req.session.userid, function(err, doc){
+            if (err){
+                console.log(err.message);
+              return res.status(500).json({ status: 500, message: err.message}); 
+            } else if (!doc){
+                return res.status(404).json({ status: 404, message: 'User not found'});
+            } 
+            else{
+                bcrypt.compare(data.oldpassword, doc.password, function(err, doesMatch){
+                    if (err){
+                        console.log(err.message);
+                        return res.status(500).json({ status: 500, message: err.message}); 
+                    } else if(!doesMatch){
+                        return res.status(400).json({ status: 400, message: `Incorrect password`});
+                    } else {
+                         delete data.oldpassword;
+                         bcrypt.hash(data.password, 8, function( err, bcryptedPassword) {
+                            if(err){
+                                console.log(err.message.message);
+                                res.status(500).json({ status: 500, message: err.message}); 
+                            } else {
+                                update({password: bcryptedPassword}, req, res);
+                            }
+                        });
+                    }
+                  });
+            }
+        }) 
+    } else {
+        update (data, req, res);
+    }
+  
+}
+
+function update(data, req, res){
+    database.updateUser(req.session.userid, data, function(err, doc){
         if (err){
-            console.log(err);
-            res.status(500).json({ status: 500, message: 'Cannot update user!'}); 
+            console.log(err.message);
+            res.status(500).json({ status: 500, message: err.message}); 
         } 
         else if(!doc){
             res.status(404).json({ status: 404, message: `User not found!`});
@@ -82,23 +110,23 @@ function updateUser(req, res){
         else{
             res.status(200).json({ status: 200, message: `User [${doc.id}] updated!`});
         }
-    })   
+    }) 
 }
 
 function deleteUser(req, res){
-    database.getUser(req.params.id, function(err, doc){
+    database.getUser(req.session.userid, function(err, doc){
         if (err) {
             console.log(err);
-           return res.status(500).json({ status: 500, message: 'Cannot delete user!'}); 
+           return res.status(500).json({ status: 500, message: err.message}); 
         } else if(!doc){
            return res.status(404).json({ status: 404, message: `User not found!`});
         } else if (req.params.id != req.session.userid){
            return res.status(400).json({ status: 400, message: 'You cannot delete another user'}); 
         } else {
-            database.deleteUser(req.params.id, function(err, doc){
+            database.deleteUser(req.session.userid, function(err, doc){
                 if (err){
-                    console.log(err);
-                    res.status(500).json({ status: 500, message: 'Cannot delete user!'}); 
+                    console.log(err.message);
+                    res.status(500).json({ status: 500, message: err.message}); 
                 } else if(!doc){
                     res.status(404).json({ status: 404, message: `User not found!`});
                 } else{
@@ -113,7 +141,8 @@ function deleteUser(req, res){
 function getCount(req, res){
     database.getCount(function(err, count){
         if(err){
-            res.status(500).json({ status: 404, message: 'Cannot count user!'}); 
+            console.log(err.message);
+            res.status(500).json({ status: 404, message: err.message}); 
         } else {
             res.status(200).json(count);
         }

@@ -1,14 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { LocalStorageService } from 'angular-2-local-storage';
 import 'rxjs/add/operator/toPromise';
-
-interface UserResponse {
-  firstname : string,
-  lastname : string,
-  email : string,
-  password : string,
-  gender : string
-}
 
 @Injectable()
 export class ApiService {
@@ -17,21 +10,85 @@ export class ApiService {
   private getUsersCountURL: string = 'api/users/count';
   private getMyProfileURL: string = 'api/users/me';
   private UsersURL: string = 'api/users/';
+  private countUsersURL: string = 'api/users/count';
+
+  private headers = new HttpHeaders({'Content-Type': 'application/json'});
   
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private localStorageService: LocalStorageService
+  ) { }
 
 
   getMyProfile(callback: Function):any{
-    this.http.get<UserResponse>(this.getMyProfileURL, {})
+    this.http.get(this.getMyProfileURL, {})
     .toPromise().then(
       res => { 
-        console.log('qq');
         callback(null, res);
       },
       err => {
         callback(err.error);
       }
     );
- }
+  }
+
+  updateProfile(data : Object, callback: Function):any{
+    this.http.put(this.getUsersURL, data, {headers : this.headers})
+    .toPromise().then(
+      res => { 
+        callback(null, res);
+      },
+      err => {
+        callback(err.error);
+      }
+    );
+  }
+  deleteProfile(data : Object, callback: Function):any{
+    this.http.delete(this.getUsersURL)
+    .toPromise().then(
+      res => { 
+        callback(null, res);
+      },
+      err => {
+        callback(err.error);
+      }
+    );
+  }
+
+  getUsersCount(callback: Function):any{
+    this.http.get(this.countUsersURL, {})
+    .toPromise().then(
+      res => { 
+        callback(null, res);
+      },
+      err => {
+        callback(err.error);
+      }
+    );
+  }
+
+  getUser(id:number, callback: Function):any{
+    this.http.get(this.UsersURL + id, {})
+    .toPromise().then(
+      res => { 
+        callback(null, res);
+      },
+      err => {
+        callback(err.error);
+      }
+    );
+  }
+
+  getUsers(offset:number, limit:number, callback: Function):any{
+    this.http.get(this.UsersURL + `?offset=${offset}&limit=${limit}`, {})
+    .toPromise().then(
+      res => { 
+        callback(null, res);
+      },
+      err => {
+        callback(err.error);
+      }
+    );
+  }
 
 }

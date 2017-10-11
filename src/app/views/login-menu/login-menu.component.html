@@ -20,11 +20,7 @@
       <form  #regForm="ngForm" (ngSubmit)="register(regForm)" class="reg-form">
           <md-form-field>
             <fa [name]="'user'" mdPrefix></fa>
-            <input type="text" autocomplete="off" name="firstname" (ngModel)="form" mdInput placeholder="Имя" required>
-          </md-form-field>
-          <md-form-field>
-            <fa [name]="'user'" mdPrefix></fa>
-            <input type="text" autocomplete="off" name="lastname" (ngModel)="form" mdInput placeholder="Фамилия" required>
+            <input type="text" autocomplete="off" name="nickname" (ngModel)="form" mdInput placeholder="Никнэйм" required>
           </md-form-field>
           <md-form-field>
             <fa [name]="'envelope'" mdPrefix></fa>
