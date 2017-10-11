@@ -2,7 +2,6 @@ import { AppComponent } from '../../app.component';
 import { Component, OnInit } from '@angular/core';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { ApiService } from '../../services/api.service';
-declare let jquery:any;
 declare let $:any;
 
 @Component({
@@ -68,6 +67,10 @@ export class HeaderComponent implements OnInit {
 
   closeLangList(list){
     $(list).slideUp(300);
+  }
+
+  changeAvatar(){
+    $('#userAvatar2').attr("src", "assets/img/avatar/" + this.userAvatar);
   }
 
 }

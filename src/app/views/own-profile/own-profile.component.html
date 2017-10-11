@@ -1,9 +1,19 @@
 <div class="profile">
     <div class="row">
       <div class="thumbnail">
-        <label for="avatar">
-            <img src="assets/img/avatar/{{avatar}}" title="change avatar">
-        </label>
+        <div class="window">
+          <label for="avatar">
+            <img draggable="false" id="userAvatar" src="assets/img/avatar/{{avatar}}" title="change avatar">
+          </label>
+            <div class="changeAvatar">
+                <div class="save" (click)="uploadAvatar(fileInput)">
+                    Save
+                </div>
+                <div class="cancel" (click)="cancelAvatar(fileInput)">
+                    Cancel
+                </div>
+            </div>
+        </div>
         <div class="nickname">
             {{nickname}}
         </div>
@@ -134,7 +144,7 @@
                     <div class="update">
                         <div class="content">
                             <input placeholder="old password" class="pass" type="password" pInputText [(ngModel)]="oldpassword" maxlength='30'/>
-                            <input placeholder="new password" type="password" pInputText [(ngModel)]="newpassword" maxlength='30'/>
+                            <input pPassword placeholder="new password" type="password" pInputText [(ngModel)]="newpassword" maxlength='30'/>
                         </div>
                         <div class="save">
                             <i class="fa fa-check-circle-o confirm" aria-hidden="true"></i>
@@ -350,4 +360,4 @@
       </div>
     </div>
 </div>
-<input type="file" id='avatar'>
+<input #fileInput type="file" id='avatar' (change)="avatarPreload(fileInput)">

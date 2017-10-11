@@ -37,6 +37,7 @@
     "core-js": "^2.4.1",
     "express": "^4.15.4",
     "express-device": "^0.4.2",
+    "express-fileupload": "^0.3.0",
     "express-session": "^1.15.6",
     "express-useragent": "^1.0.8",
     "hammerjs": "^2.0.8",

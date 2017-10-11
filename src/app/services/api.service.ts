@@ -12,6 +12,8 @@ export class ApiService {
   private UsersURL: string = 'api/users/';
   private countUsersURL: string = 'api/users/count';
 
+  private uploadAvatarURL: string = 'api/upload/avatar';
+
   private headers = new HttpHeaders({'Content-Type': 'application/json'});
   
   constructor(
@@ -81,6 +83,18 @@ export class ApiService {
 
   getUsers(offset:number, limit:number, callback: Function):any{
     this.http.get(this.UsersURL + `?offset=${offset}&limit=${limit}`, {})
+    .toPromise().then(
+      res => { 
+        callback(null, res);
+      },
+      err => {
+        callback(err.error);
+      }
+    );
+  }
+
+  uploadAvatar(data : Object, callback: Function):any{
+    this.http.post(this.uploadAvatarURL, data)
     .toPromise().then(
       res => { 
         callback(null, res);

@@ -6,8 +6,7 @@ const app = require('express')();                                 // express app
 const httpExpressServer = require('http').Server(app);            // http server
 const io = require('socket.io')(httpExpressServer);               // socket server
 const bodyParser = require('body-parser')                         // x-www-form-urlencoded
-const multer  = require('multer');                                // multipart/form-data
-const upload = multer();                                          // <--
+const fileUpload = require('express-fileupload');                 // file upload
 const session = require('express-session')                        // session for express
 const cookieParser = require('cookie-parser')                     // cookie parser
 const mongoose = require('mongoose');                             // mongodb driver
@@ -30,7 +29,9 @@ const authmw = require('./server/middlewares/auth');
 //middlewares
 app.use(bodyParser.json());                                    // post data json
 app.use(bodyParser.urlencoded({ extended: false }));           // post data encoded
-app.use(upload.fields([]));                                    // form data
+app.use(fileUpload({
+    limits: { fileSize: 10 * 1024 * 1024 },
+}));                                                           // file upload mw
 app.use(device.capture());                                     // user device type info
 app.use(useragent.express());                                  // user browser info
 app.use(requestIp.mw())                                        // user ip info

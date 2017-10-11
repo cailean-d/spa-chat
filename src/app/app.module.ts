@@ -19,6 +19,7 @@ import { RadioButtonModule } from 'primeng/primeng';
 import { InputTextareaModule } from 'primeng/primeng';
 import { DropdownModule } from 'primeng/primeng';
 import { ChipsModule } from 'primeng/primeng';
+import { PasswordModule } from 'primeng/primeng';
 
 // Custom modules
 import { AppRoutingModule } from './app-routing.module';
@@ -72,6 +73,7 @@ import { ChatOnlineComponent } from './views/chat-online/chat-online.component';
     InputTextareaModule,
     DropdownModule,
     ChipsModule,
+    PasswordModule,
     LocalStorageModule.withConfig({
       prefix: 'user',
       storageType: 'localStorage'

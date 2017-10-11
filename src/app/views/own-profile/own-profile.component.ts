@@ -3,12 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { ApiService } from '../../services/api.service';
+import { Message } from 'primeng/components/common/api';
+import { HeaderComponent } from '../header/header.component';
 declare let $:any;
 
 @Component({
   selector: 'app-own-profile',
   templateUrl: './own-profile.component.html',
-  styleUrls: ['./own-profile.component.scss']
+  styleUrls: ['./own-profile.component.scss'],
+  providers: [HeaderComponent]
 })
 export class OwnProfileComponent implements OnInit {
 
@@ -33,13 +36,14 @@ export class OwnProfileComponent implements OnInit {
   oldpassword: string;
   newpassword: string;
   birthdayDate: Date;
-
+  
   
   constructor(
     private Title : Title,
     private AppComponent: AppComponent,
     private localStorageService: LocalStorageService,
-    private ApiService: ApiService
+    private ApiService: ApiService,
+    private HeaderComponent: HeaderComponent
   ) {}
 
   ngOnInit() {
@@ -180,28 +184,25 @@ export class OwnProfileComponent implements OnInit {
     }
   }
 
-  sendData(data, valueCompare, buffer, saveValue, parentClass, isEdit, parent, update){
+  sendData(data, valueCompare, buffer, saveValue, parentClass, isEdit, parent, update, callback){
     if(valueCompare === ''){
-      this.AppComponent.showError('Строка пуста!');
-      this.cancelEditing(isEdit, parent, buffer);
-      isEdit = false;
+      this.AppComponent.showError('Value is empty!');
+      callback(true);
     } else if(valueCompare !== buffer){
       if(isEdit){
-        isEdit = false;
         this.ApiService.updateProfile(data, (err, data)=>{
           if(err){
-            console.log(err);
             let errObj = JSON.parse(err);
             this.AppComponent.showError(errObj.message);
+            callback(err);
           } else {
-            this.AppComponent.showSuccess('Данные обновены!');
+            callback(null);
+            this.AppComponent.showSuccess('Data is changed!');
             if(update){
               this.AppComponent.updateLocalStorage(parentClass, saveValue);
             }
             else {
-              isEdit = true;
               this.cancelEditing(isEdit, parent, buffer);
-              isEdit = false;
             }
             $('.update').hide();
             $('.info').show();
@@ -210,12 +211,12 @@ export class OwnProfileComponent implements OnInit {
       }
     } else {
       this.cancelEditing(isEdit, parent, buffer);
-      isEdit = false;
+      callback(null);
     }
 
   }
 
-  saveData(parent, buffer, isEdit){
+  saveData(parent, buffer, isEdit, callback){
     let parentClass = parent.attr('class').substr(0, parent.attr('class').indexOf(" "));
     let value;
     let calendarDate;
@@ -225,22 +226,31 @@ export class OwnProfileComponent implements OnInit {
           value = this.getDay(this.birthdayDate);
           calendarDate = this.birthdayDate;
           data[parentClass] = calendarDate;
-          this.sendData(data, value, buffer, calendarDate, parentClass, isEdit, parent, true);
+          this.sendData(data, value, buffer, calendarDate, parentClass, isEdit, parent, true, callback);
           this.updateBirthday();
     } else if(parentClass == 'language'){ 
       value = this.language; 
       data[parentClass] = value;
-      this.sendData(data, value, buffer, value, parentClass, isEdit, parent, true);
+      this.sendData(data, value, buffer, value, parentClass, isEdit, parent, true, callback);
       this.updateLanguage();
     } else if(parentClass == 'password'){
       value = this.newpassword; 
       data[parentClass] = value;
       data['oldpassword'] = this.oldpassword;
-      this.sendData(data, value, buffer, null, null, isEdit, parent, false);
+      this.sendData(data, value, buffer, null, null, isEdit, parent, false, callback);
     } else{ 
-      value = this.getBuffer(parent);
+      if (parentClass == 'firstname' || parentClass == 'lastname'){
+          if(this.getBuffer(parent) !== ' '){
+            value = this.capitalizeFirstLetter(this.getBuffer(parent));
+            this.setBuffer(parent, value);
+          } else {
+            value = this.getBuffer(parent);
+          }
+      } else{
+         value = this.getBuffer(parent);
+      }
       data[parentClass] = value;
-      this.sendData(data, value, buffer, value, parentClass, isEdit, parent, true);
+      this.sendData(data, value, buffer, value, parentClass, isEdit, parent, true, callback);
     }
   }
 
@@ -261,7 +271,15 @@ export class OwnProfileComponent implements OnInit {
       }
     }
 
-    $('.save .confirm').on('click', function(){ thisClass.saveData(parent, buffer, isEdit);})
+    $('.save .confirm').on('click', function(){ thisClass.saveData(parent, buffer, isEdit, 
+      function(err){
+         if(!err){
+           isEdit = false;
+           thisClass.oldpassword = null;
+           thisClass.newpassword = null;
+         }
+      });
+    })
 
     $('.cancel').on('click', function(){
       thisClass.cancelEditing(isEdit, parent, buffer);
@@ -269,6 +287,7 @@ export class OwnProfileComponent implements OnInit {
     });
 
     $('.edit').on('click', function(){
+
       if(isEdit){
         thisClass.cancelEditing(isEdit, parent, buffer);
       }
@@ -284,6 +303,47 @@ export class OwnProfileComponent implements OnInit {
         thisClass.setBuffer(parent, '');
       }
 
+    })
+  }
+
+  capitalizeFirstLetter(string : string) {
+    string = string.toLowerCase();
+    return string[0].toUpperCase() + string.slice(1);
+  }
+
+  avatarPreload(fileInput){
+    $('.changeAvatar').css('display', 'flex');
+    if (fileInput.files && fileInput.files[0]) {
+        let reader:FileReader = new FileReader();
+        reader.readAsDataURL(fileInput.files[0]);
+        reader.onload = () => { $('#userAvatar').attr("src", reader.result);};
+    }
+  }
+  
+  cancelAvatar(fileInput){
+    if(fileInput.files && fileInput.files[0]){
+      fileInput.value = "";
+    }
+    $('#userAvatar').attr("src", "assets/img/avatar/" + this.avatar);
+    $('.changeAvatar').hide();
+  }
+
+  uploadAvatar(fileInput){
+    let formData = new FormData();
+    if(fileInput.files && fileInput.files[0]){
+      formData.append("avatar", fileInput.files[0]);
+    }
+    this.ApiService.uploadAvatar(formData, (err, data)=>{
+        if(err){
+          this.AppComponent.showError(err.message);
+        } else {
+          this.AppComponent.showSuccess("Avatar is changed!");
+          this.avatar = data.message;
+          this.AppComponent.updateLocalStorage('avatar', data.message);
+          this.HeaderComponent.userAvatar = data.message;
+          this.HeaderComponent.changeAvatar();
+          $('.changeAvatar').hide();
+        }
     })
   }
 
