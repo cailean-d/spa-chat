@@ -1,0 +1,40 @@
+.page404{
+    height: 100vh;
+    background: url('../../../assets/img/404.jpg');
+    background-repeat: no-repeat;
+    background-size: 60% 60%;
+    background-position: center center;
+    background-attachment: fixed;
+
+    
+    @media screen and (max-width: 600px ) {
+        background-size: 130% 40%;
+    } 
+ }
+a{
+    text-decoration: none; 
+    color: #ff0606; 
+    font-size: 2em; 
+    text-transform: uppercase;
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    width: 100%;
+    padding: 50px;
+}
+a:hover{
+    text-decoration: underline;
+}
+a:visited{
+    color: #ff0606;
+}
+.home{
+    position: relative; 
+    display: flex; 
+    justify-content: center;
+}
+.anchor{
+    position: absolute; 
+    top: 480px;
+}

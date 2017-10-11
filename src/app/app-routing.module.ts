@@ -42,10 +42,8 @@ const routes: Routes = [
     { path: '', component: DialogsComponent, outlet: 'app-main' },
     { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
   ]},
-  { path: 'pagenotfound', component: MainTemplateComponent, children: [
-    { path: '', component: NotFoundComponent, outlet: 'app-main' }
-  ]},
-  { path: '**', redirectTo: '/pagenotfound'}  
+  { path: '404', component: NotFoundComponent},
+  { path: '**', redirectTo: '/404'}  
 ];
 
 
