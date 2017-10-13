@@ -19,10 +19,6 @@ const routes: Routes = [
     { path: '', component: OwnProfileComponent, outlet: 'app-main' },
     { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
   ]},
-   { path: 'login', component: MainTemplateComponent, children: [
-    // { path: '', component: LoginInformationComponent, outlet: 'app-main' },
-    { path: '', component: LoginMenuComponent, outlet: 'app-aside-left' }
-  ]},
   { path: 'friends', component: MainTemplateComponent, canActivate: [AuthGuard], children: [
     { path: '', component: HeaderComponent, outlet: 'app-header' },
     { path: '', component: FriendsComponent, outlet: 'app-main' },
@@ -48,9 +44,9 @@ const routes: Routes = [
     { path: '', component: UserProfileComponent, outlet: 'app-main' },
     { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
   ]},
-  { path: '404', component: NotFoundComponent},
+  { path: 'login', component: LoginMenuComponent },
   { path: 'home', redirectTo: '/'},
-  { path: '**', redirectTo: '/404'}  
+  { path: '**', component: NotFoundComponent}  
 ];
 
 

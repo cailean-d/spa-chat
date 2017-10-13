@@ -195,10 +195,10 @@
     }  
 }
 
-.btn{
+.btn:not([disabled]){
     margin-bottom: 7px !important;
 }
 
-.btn:hover{
+.btn:hover:not([disabled]){
     background: #eeeeee;
 }

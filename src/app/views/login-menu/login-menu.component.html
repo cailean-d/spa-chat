@@ -1,41 +1,55 @@
-<div class="login-block" *ngIf='isShowLogin; else registration'>
-    <h1>Авторизация</h1>
-    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="reg-form">
-        <md-form-field>
-          <fa [name]="'envelope'" mdPrefix></fa>
-          <input type="email" autocomplete="off" name="email" (ngModel)="form" mdInput placeholder="Email" required>
-        </md-form-field>
-        <md-form-field>
-          <fa [name]="'lock'" mdPrefix></fa>
-          <input type="password" autocomplete="off" name="password" (ngModel)="form" mdInput placeholder="Пароль" required>
-        </md-form-field>
-        <button md-raised-button mat-primary [disabled]="!loginForm.valid">Войти</button>
-    </form>
-    <button md-raised-button (click)='showReg()'>Пройти регистрацию</button>
-</div>
 
-<ng-template #registration>
-  <div class="reg-block">
-    <h1>Регистрация</h1>
-      <form  #regForm="ngForm" (ngSubmit)="register(regForm)" class="reg-form">
-          <md-form-field>
-            <fa [name]="'user'" mdPrefix></fa>
-            <input type="text" autocomplete="off" name="nickname" (ngModel)="form" mdInput placeholder="Никнэйм" required>
-          </md-form-field>
-          <md-form-field>
-            <fa [name]="'envelope'" mdPrefix></fa>
-            <input type="email" autocomplete="off" name="email" (ngModel)="form" mdInput placeholder="Email" required>
-          </md-form-field>
-          <md-form-field>
-            <fa [name]="'lock'" mdPrefix></fa>
-            <input type="password" name="password" (ngModel)="form" mdInput placeholder="Пароль" required>
-          </md-form-field>
-          <md-form-field>
-            <fa [name]="'lock'" mdPrefix></fa>
-            <input type="password" name="password2" (ngModel)="form" mdInput placeholder="Повторите пароль" required>
-          </md-form-field>
-          <button md-raised-button mat-primary [disabled]="!regForm.valid">Регистрация</button>
-      </form>
-      <button md-raised-button (click)='showLogin()'>Назад</button>
+
+
+<div class="wrapper"  (contextmenu)="disableMenu($event)">
+  <header>
+      <router-outlet name="app-header"></router-outlet>  
+  </header>
+  <div class="app-body">
+      <aside class='left-aside'>
+        <div class="login-block" *ngIf='isShowLogin; else registration'>
+          <h1>Authentication</h1>
+          <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="reg-form">
+              <md-form-field>
+                <fa [name]="'envelope'" mdPrefix></fa>
+                <input type="email" autocomplete="off" name="email" (ngModel)="form" mdInput placeholder="Email" required>
+              </md-form-field>
+              <md-form-field>
+                <fa [name]="'lock'" mdPrefix></fa>
+                <input type="password" autocomplete="off" name="password" (ngModel)="form" mdInput placeholder="Password" required>
+              </md-form-field>
+              <button class="btn" md-raised-button mat-primary [disabled]="!loginForm.valid">Log in</button>
+          </form>
+          <button class="btn" md-raised-button (click)='showReg()'>Registration</button>
+        </div>
+        <ng-template #registration>
+          <div class="reg-block">
+            <h1>Registration</h1>
+              <form  #regForm="ngForm" (ngSubmit)="register(regForm)" class="reg-form">
+                  <md-form-field>
+                    <fa [name]="'user'" mdPrefix></fa>
+                    <input type="text" autocomplete="off" name="nickname" (ngModel)="form" mdInput placeholder="Nickname" required>
+                  </md-form-field>
+                  <md-form-field>
+                    <fa [name]="'envelope'" mdPrefix></fa>
+                    <input type="email" autocomplete="off" name="email" (ngModel)="form" mdInput placeholder="Email" required>
+                  </md-form-field>
+                  <md-form-field>
+                    <fa [name]="'lock'" mdPrefix></fa>
+                    <input type="password" name="password" (ngModel)="form" mdInput placeholder="Password" required>
+                  </md-form-field>
+                  <md-form-field>
+                    <fa [name]="'lock'" mdPrefix></fa>
+                    <input type="password" name="password2" (ngModel)="form" mdInput placeholder="Repeat password" required>
+                  </md-form-field>
+                  <button class="btn" md-raised-button mat-primary [disabled]="!regForm.valid">Registration</button>
+              </form>
+              <button class="btn" md-raised-button (click)='showLogin()'>Back</button>
+          </div>
+        </ng-template>
+      </aside>
+      <main>
+        <div class="image"></div>
+      </main>
   </div>
-</ng-template>
+</div>

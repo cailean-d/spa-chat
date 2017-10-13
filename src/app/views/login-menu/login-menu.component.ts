@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login-menu',
   templateUrl: './login-menu.component.html',
-  styleUrls: ['./login-menu.component.css']
+  styleUrls: ['./login-menu.component.scss']
 })
 export class LoginMenuComponent implements OnInit {
 
@@ -68,6 +68,10 @@ export class LoginMenuComponent implements OnInit {
           this.router.navigate(['/']);
         }
     });
+  }
+
+  disableMenu(event){
+    event.preventDefault();
   }
 
 }
