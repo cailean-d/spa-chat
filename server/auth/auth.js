@@ -35,7 +35,7 @@ function loginUser(req, res){
             console.log(err);
             res.status(500).json({ status: 500, message: 'Cannot log in!'}); 
         } else if(!doc){
-            res.status(400).json({ status: 400, message: `No such email!`});
+            res.status(400).json({ status: 400, message: `The email does not exists!`});
         } else{
             bcrypt.compare(data.password, doc.password, function(err, doesMatch){
                 if (err){

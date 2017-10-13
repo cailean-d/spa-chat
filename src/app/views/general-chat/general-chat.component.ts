@@ -13,7 +13,7 @@ export class GeneralChatComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.Title.setTitle('Общий чат');
+    this.Title.setTitle('General Chat');
   }
 
 }

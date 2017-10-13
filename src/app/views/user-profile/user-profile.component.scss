@@ -1,11 +1,22 @@
+.scroll{
+    margin-left: -15px;
+    margin-right: -30px;
+}
+
+.noscroll{
+    margin-left: -15px;
+    margin-right: -15px;
+}
 .profile{
+    position: relative;
     padding: 0 30px;
     height: 100%;
     overflow-y: auto;
     background: #F8F8F8;
-    margin-left: -15px;
-    margin-right: -30px;
 
+    @media screen and (max-width: 600px ) {
+        display: block;
+    }  
 
     .row{
         display: flex;
@@ -13,8 +24,7 @@
 
         @media screen and (max-width: 600px ) {
             display: block;
-            margin-right: 15px;
-        }   
+        }    
 
         .right{
             width: 70%;
@@ -61,39 +71,14 @@
                     width: auto;
                     min-width: 100%;
                     min-height: 100%;
-                    cursor: pointer;
 
                     @media screen and (max-width: 600px ) {
                         height: auto;
                         max-height: 300px;
                     } 
                 }
-
-                .changeAvatar{
-                    background: rgba($color: #000000, $alpha: 0.3);
-                    position: absolute;
-                    left: 0;
-                    bottom: 0;
-                    color: #ebebeb;
-                    width: 100%;
-                    display: none;
-                    transition: background-color 0.3s;
-
-                    .save, .cancel{
-                        padding: 7px;
-                        width: 50%;
-                        text-align: center;
-                        cursor: pointer;
-                    }
-
-                    .save, .cancel{
-                        &:hover{
-                             background: rgba($color: #000000, $alpha: 0.35);
-                             color: #ffffff;
-                        }
-                    }
-                }
             }
+
             button{
                 display: block;
                 width: 100%;
@@ -101,6 +86,7 @@
             }
 
             .nickname{
+                overflow: hidden;
                 color: #484848;
                 text-align: center;
                 padding: 0 16px;
@@ -142,45 +128,6 @@
             position: relative;
             width: 100%;
             min-height: 50px;
-            
-            &:hover .edited{
-                display: flex;
-            }
-
-            &:hover{
-                background: #FCFCFC;
-            }
-            
-            .update{
-
-                display: none;
-
-                textarea{
-                    resize: vertical;
-                    width: 100%;
-                    min-height: 50px;
-                }
-
-                input{
-                    width: 100% !important;
-                }
-
-                .gender{
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    justify-content: flex-start;
-                    .radio{
-                        margin-right: 10px;
-                    }
-                }
-                .pass{
-                    margin-bottom: 5px;
-                }
-                .ui-chips-token{
-                    margin-top: 2px !important;
-                }
-            }
 
             .title{
                 width: 25%;
@@ -222,56 +169,6 @@
                 flex-direction: column;
                 justify-content: center;
             }
-
-            .edit{
-                cursor: pointer;
-                border-radius: 50%;
-                z-index: 1;
-                display: none;
-                padding: 5px 10px;
-                height: 100%;
-                align-items: center;
-                position: absolute;
-                right: 0;
-                top: 0;
-                i{
-                    font-size: 17px;
-                }
-
-                &:hover i {
-                    color: #33C933;
-                    cursor: pointer;
-                }
-            }
-
-            .save{
-                display: flex;
-                cursor: pointer;
-                border-radius: 50%;
-                z-index: 1;
-                padding: 5px 5px;
-                height: 100%;
-                justify-content: center;
-                align-items: center;
-                position: absolute;
-                right: 0;
-                top: 0;
-                i{
-                    vertical-align: middle;
-                    font-size: 23px;
-                    margin-right: 5px;
-                }
-
-                &:hover i {
-                    cursor: pointer;
-                }
-                & .confirm:hover{
-                    color: #33C933;
-                }
-                & .cancel:hover{
-                    color: #D62E2E;
-                }
-            }
             
             &:last-child{
                 border: none;
@@ -280,6 +177,28 @@
     }
 }
 
-#avatar{
-    display: none;
+
+.noprofile{
+    width: 100%;
+    height: 100%;
+    background: url('../../../assets/img/usernotfound.jpg');
+    background-repeat: no-repeat;
+    background-size: 50% 100%;
+    background-position: center center;
+    background-attachment: fixed;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    @media screen and (max-width: 600px ) {
+       background-size: cover;
+    }  
+}
+
+.btn{
+    margin-bottom: 7px !important;
+}
+
+.btn:hover{
+    background: #eeeeee;
 }

@@ -20,7 +20,7 @@ export class FriendsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.Title.setTitle('Друзья');
+    this.Title.setTitle('Friends');
 
     if(location.hash == '' || location.hash == '#1'){
         this.select_tab('all-friends');

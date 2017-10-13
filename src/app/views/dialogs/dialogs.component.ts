@@ -13,7 +13,7 @@ export class DialogsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.Title.setTitle('Диалоги');
+    this.Title.setTitle('Dialogs');
   }
 
 }

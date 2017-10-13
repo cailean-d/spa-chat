@@ -47,7 +47,7 @@ export class OwnProfileComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.Title.setTitle('Главная');
+    this.Title.setTitle("Home");
     this.getData();
     this.editData();
   }

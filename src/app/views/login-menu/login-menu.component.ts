@@ -14,8 +14,8 @@ export class LoginMenuComponent implements OnInit {
 
   isShowLogin: boolean = true;
   windowHash: string = window.location.hash;
-  welcomeTitle: string = 'Добро пожаловать';
-  loginTitle: string  = 'Регистрация';
+  welcomeTitle: string = 'Welcome';
+  loginTitle: string  = 'Registration';
 
   constructor(
     private title: Title,

@@ -16,4 +16,8 @@ export class NotFoundComponent implements OnInit {
     this.Title.setTitle('Page not found');
   }
 
+  disableMenu(event){
+    event.preventDefault();
+  }
+
 }

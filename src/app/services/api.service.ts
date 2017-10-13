@@ -70,7 +70,7 @@ export class ApiService {
   }
 
   getUser(id:number, callback: Function):any{
-    this.http.get(this.UsersURL + id, {})
+    this.http.get(this.UsersURL + id)
     .toPromise().then(
       res => { 
         callback(null, res);

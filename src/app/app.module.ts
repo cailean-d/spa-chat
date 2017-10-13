@@ -38,6 +38,7 @@ import { DialogsComponent } from './views/dialogs/dialogs.component';
 import { FriendsComponent } from './views/friends/friends.component';
 import { SettingsComponent } from './views/settings/settings.component';
 import { ChatOnlineComponent } from './views/chat-online/chat-online.component';
+import { UserProfileComponent } from './views/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { ChatOnlineComponent } from './views/chat-online/chat-online.component';
     DialogsComponent,
     FriendsComponent,
     SettingsComponent,
-    ChatOnlineComponent
+    ChatOnlineComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

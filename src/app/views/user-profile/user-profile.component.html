@@ -1,0 +1,188 @@
+<div class="profile" [ngClass]="profileClass" >
+  <div class="row"  *ngIf='profileIsExists; else doesnotexist'>
+    <div class="thumbnail">
+      <div class="window">
+          <img draggable="false" id="userAvatar" src="assets/img/avatar/{{avatar}}">
+      </div>
+      <div class="nickname">
+          {{nickname}}
+      </div>
+      <button class="btn" md-raised-button mat-primary [disabled]="isDisableAdd">Add to friends</button>
+      <button class="btn" md-raised-button mat-primary [disabled]="">Text a message</button>
+    </div>
+    <div class="right">
+      <div class="block">
+          <h3>Basic Information</h3>
+          <div class="info-block" *ngIf='id'>
+            <div class="title">
+                <span>
+                  <i class="fa fa-id-badge" aria-hidden="true"></i>
+                  ID
+                </span>
+            </div>
+            <div class="content">
+                {{id}}
+            </div>
+          </div>
+          <div class="info-block" *ngIf='firstname'>
+            <div class="title">
+              <span>
+                  <i class="fa fa-user" aria-hidden="true"></i>
+                  Firstname
+              </span>
+            </div>
+            <div class="body">
+                  <div class="info">
+                      <div class="content">
+                         {{firstname}}
+                      </div>
+                  </div>
+            </div>
+          </div>
+          <div class="info-block" *ngIf='lastname'>
+              <div class="title">
+                  <span>
+                      <i class="fa fa-user" aria-hidden="true"></i>
+                      Lastname
+                  </span>
+              </div>
+              <div class="body">
+                      <div class="info">
+                          <div class="content">
+                              {{lastname}}
+                          </div>
+                      </div>
+              </div>
+          </div>
+          <div class="info-block" *ngIf='gender'>
+            <div class="title">
+                <span>
+                      <i class="fa fa-venus-mars" aria-hidden="true"></i>
+                      Gender
+                </span>
+            </div>
+            <div class="body">
+                  <div class="info">
+                      <div class="content">
+                          {{gender}}
+                      </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+        <div class="block" *ngIf='addInfo'>
+          <h3>Additional Information</h3>
+          <div class="info-block" *ngIf='about'>
+              <div class="title">
+                  <span>
+                      <i class="fa fa-info-circle" aria-hidden="true"></i>
+                      About
+                  </span>
+              </div>
+              <div class="body">
+                  <div class="info">
+                      <div class="content">
+                          {{about}}
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="info-block" *ngIf='birthday'>
+              <div class="title">
+                  <span>
+                      <i class="fa fa-birthday-cake" aria-hidden="true"></i>
+                      Birthday
+                  </span>
+              </div>
+              <div class="body">
+                  <div class="info">
+                      <div class="content">
+                          {{birthday}}
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="info-block" *ngIf='phone'>
+              <div class="title">
+                  <span>
+                      <i class="fa fa-phone" aria-hidden="true"></i>
+                      Phone
+                  </span>
+              </div>
+              <div class="body">
+                  <div class="info">
+                      <div class="content">
+                          {{phone}}
+                      </div>
+                  </div>
+                </div>
+          </div>
+          <div class="info-block" *ngIf='country'>
+              <div class="title">
+                  <span>
+                      <i class="fa fa-home" aria-hidden="true"></i>
+                      Country
+                  </span>
+              </div>
+              <div class="body">
+                  <div class="info">
+                      <div class="content">
+                          {{country}}
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="info-block" *ngIf='city'>
+              <div class="title">
+                  <span>
+                      <i class="fa fa-home" aria-hidden="true"></i>
+                      City
+                  </span>
+              </div>
+              <div class="body">
+                  <div class="info">
+                      <div class="content">
+                          {{city}}
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="info-block" *ngIf='language'>
+              <div class="title">
+                  <span>
+                      <i class="fa fa-language" aria-hidden="true"></i>
+                      Language
+                  </span>
+              </div>
+              <div class="body">
+                  <div class="info">
+                      <div class="content">
+                          {{language}}
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="info-block" *ngIf='website'>
+              <div class="title">
+                  <span>
+                      <i class="fa fa-globe" aria-hidden="true"></i>
+                      Website
+                  </span>
+              </div>
+              <div class="body">
+                  <div class="info">
+                      <div class="content">
+                          {{website}}
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <ng-template #doesnotexist>
+    <div class="noprofile">
+
+    </div>
+  </ng-template>    
+</div>

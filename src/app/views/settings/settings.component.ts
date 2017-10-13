@@ -13,7 +13,7 @@ export class SettingsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.Title.setTitle('Настройки');
+    this.Title.setTitle('Settings');
   }
 
 }

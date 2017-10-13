@@ -11,6 +11,7 @@ import { MainMenuComponent } from './views/main-menu/main-menu.component';
 import { HeaderComponent } from './views/header/header.component';
 import { FriendsComponent } from './views/friends/friends.component';
 import { GeneralChatComponent } from './views/general-chat/general-chat.component';
+import { UserProfileComponent } from './views/user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', component: MainTemplateComponent, pathMatch: 'full', canActivate: [AuthGuard], children: [
@@ -42,7 +43,13 @@ const routes: Routes = [
     { path: '', component: DialogsComponent, outlet: 'app-main' },
     { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
   ]},
+  { path: 'profile/:id', component: MainTemplateComponent, canActivate: [AuthGuard], children: [
+    { path: '', component: HeaderComponent, outlet: 'app-header' },
+    { path: '', component: UserProfileComponent, outlet: 'app-main' },
+    { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
+  ]},
   { path: '404', component: NotFoundComponent},
+  { path: 'home', redirectTo: '/'},
   { path: '**', redirectTo: '/404'}  
 ];
 

@@ -23,12 +23,25 @@ function getUser(req, res){
     database.getUser(req.params.id, function(err, doc){
         if (err){
             console.log(err.message);
-            res.status(500).json({ status: 500, message: 'Cannot find user'}); 
+            res.status(500).json({ status: 500, message: err.message}); 
         } else if (!doc){
             res.status(404).json({ status: 404, message: 'User not found'});
         } 
         else{
-            res.status(200).json(doc);
+            res.status(200).json({
+                nickname: doc.nickname,
+                firstname: doc.firstname,
+                lastname: doc.lastname,
+                avatar: doc.avatar,
+                gender: doc.gender,
+                about: doc.about,
+                birthday: doc.birthday,
+                phone: doc.phone,
+                website: doc.website,
+                country: doc.country,
+                city: doc.city,
+                language: doc.language,
+            });
         }
     })     
 }
