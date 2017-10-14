@@ -2,7 +2,7 @@ import { AppComponent } from '../../app.component';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../../services/auth.service';
-import { NgForm } from '@angular/forms';
+import { NgForm, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,12 +17,47 @@ export class LoginMenuComponent implements OnInit {
   welcomeTitle: string = 'Welcome';
   loginTitle: string  = 'Registration';
 
+  regForm: FormGroup;
+
   constructor(
     private title: Title,
     private AuthService: AuthService,
     private router: Router,
-    private AppComponent: AppComponent
-  ) { }
+    private AppComponent: AppComponent,
+    private FormBuilder: FormBuilder
+  ) { 
+    this.regForm = FormBuilder.group({
+        nickname: ['',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(15)
+          ]
+        ],
+        email: ['',
+          [
+            Validators.required,
+            Validators.minLength(4),
+            Validators.maxLength(40),
+            Validators.pattern(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+          ]
+        ],
+        password: ['',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(30)
+          ]
+        ],
+        password2: ['',
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(30)
+          ]
+        ]
+      },{ validator: this.checkIfMatchingPasswords('password', 'password2')})
+  }
 
   ngOnInit() {
     this.title.setTitle(this.welcomeTitle);
@@ -72,6 +107,19 @@ export class LoginMenuComponent implements OnInit {
 
   disableMenu(event){
     event.preventDefault();
+  }
+
+  checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
+    return (group: FormGroup) => {
+      let passwordInput = group.controls[passwordKey],
+          passwordConfirmationInput = group.controls[passwordConfirmationKey];
+      if (passwordInput.value !== passwordConfirmationInput.value) {
+        return passwordConfirmationInput.setErrors({notEquivalent: true})
+      }
+      else {
+          return passwordConfirmationInput.setErrors(null);
+      }
+    }
   }
 
 }

@@ -3,15 +3,15 @@ import { NgModule } from '@angular/core';
 import { NgProgressModule, NgProgressBrowserXhr } from 'ngx-progressbar';
 import { HttpModule, BrowserXhr } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 import { LocalStorageModule } from 'angular-2-local-storage';
 
 // UI modules
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdFormFieldModule } from '@angular/material';
-import { MdInputModule } from '@angular/material';
-import { MdButtonModule } from '@angular/material';
+import { MatFormFieldModule } from '@angular/material';
+import { MatInputModule } from '@angular/material';
+import { MatButtonModule } from '@angular/material';
 import { GrowlModule } from 'primeng/primeng';
 import { CalendarModule } from 'primeng/primeng';
 import { InputTextModule } from 'primeng/primeng';
@@ -63,9 +63,9 @@ import { UserProfileComponent } from './views/user-profile/user-profile.componen
     HttpModule,
     Angular2FontawesomeModule,
     BrowserAnimationsModule,
-    MdFormFieldModule,
-    MdInputModule,
-    MdButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
     HttpClientModule,
     FormsModule,
     GrowlModule,
@@ -76,6 +76,7 @@ import { UserProfileComponent } from './views/user-profile/user-profile.componen
     DropdownModule,
     ChipsModule,
     PasswordModule,
+    ReactiveFormsModule,
     LocalStorageModule.withConfig({
       prefix: 'user',
       storageType: 'localStorage'

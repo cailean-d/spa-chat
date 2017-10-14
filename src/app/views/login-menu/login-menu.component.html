@@ -8,43 +8,47 @@
   <div class="app-body">
       <aside class='left-aside'>
         <div class="login-block" *ngIf='isShowLogin; else registration'>
-          <h1>Authentication</h1>
+          <h1>Authorization</h1>
           <form #loginForm="ngForm" (ngSubmit)="login(loginForm)" class="reg-form">
-              <md-form-field>
-                <fa [name]="'envelope'" mdPrefix></fa>
-                <input type="email" autocomplete="off" name="email" (ngModel)="form" mdInput placeholder="Email" required>
-              </md-form-field>
-              <md-form-field>
-                <fa [name]="'lock'" mdPrefix></fa>
-                <input type="password" autocomplete="off" name="password" (ngModel)="form" mdInput placeholder="Password" required>
-              </md-form-field>
-              <button class="btn" md-raised-button mat-primary [disabled]="!loginForm.valid">Log in</button>
+              <mat-form-field>
+                <fa [name]="'envelope'" matPrefix></fa>
+                <input type="email" autocomplete="off" minlength="4" maxlength="40" name="email" (ngModel)="form" matInput placeholder="Email" required>
+              </mat-form-field>
+              <mat-form-field>
+                <fa [name]="'lock'" matPrefix></fa>
+                <input type="password" minlength="6" maxlength="30" autocomplete="off" name="password" (ngModel)="form" matInput placeholder="Password" required>
+              </mat-form-field>
+              <button class="btn" mat-raised-button mat-primary [disabled]="!loginForm.valid">Log in</button>
           </form>
-          <button class="btn" md-raised-button (click)='showReg()'>Registration</button>
+          <button class="btn" mat-raised-button (click)='showReg()'>Registration</button>
         </div>
         <ng-template #registration>
           <div class="reg-block">
             <h1>Registration</h1>
-              <form  #regForm="ngForm" (ngSubmit)="register(regForm)" class="reg-form">
-                  <md-form-field>
-                    <fa [name]="'user'" mdPrefix></fa>
-                    <input type="text" autocomplete="off" name="nickname" (ngModel)="form" mdInput placeholder="Nickname" required>
-                  </md-form-field>
-                  <md-form-field>
-                    <fa [name]="'envelope'" mdPrefix></fa>
-                    <input type="email" autocomplete="off" name="email" (ngModel)="form" mdInput placeholder="Email" required>
-                  </md-form-field>
-                  <md-form-field>
-                    <fa [name]="'lock'" mdPrefix></fa>
-                    <input type="password" name="password" (ngModel)="form" mdInput placeholder="Password" required>
-                  </md-form-field>
-                  <md-form-field>
-                    <fa [name]="'lock'" mdPrefix></fa>
-                    <input type="password" name="password2" (ngModel)="form" mdInput placeholder="Repeat password" required>
-                  </md-form-field>
-                  <button class="btn" md-raised-button mat-primary [disabled]="!regForm.valid">Registration</button>
+              <form  #regForm1="ngForm" (ngSubmit)="register(regForm)" class="reg-form" [formGroup]="regForm">
+                  <mat-form-field floatPlaceholder="never">
+                    <fa [name]="'user'" matPrefix></fa>
+                    <input type="text" autocomplete="off" name="nickname" matInput placeholder="Nickname" maxlength="15" formControlName="nickname">
+                    <mat-error *ngIf="regForm.get('nickname').invalid">Incorrect nickname</mat-error>
+                  </mat-form-field>
+                  <mat-form-field floatPlaceholder="never">
+                    <fa [name]="'envelope'" matPrefix></fa>
+                    <input type="email" autocomplete="off" maxlength="40" name="email" matInput placeholder="Email" formControlName="email">
+                    <mat-error *ngIf="regForm.get('email').invalid">Incorrect email</mat-error>
+                  </mat-form-field>
+                  <mat-form-field floatPlaceholder="never">
+                    <fa [name]="'lock'" matPrefix></fa>
+                    <input type="password" name="password" (ngModel)="form.password" matInput placeholder="Password" formControlName="password" maxlength="30" >
+                    <mat-error *ngIf="regForm.get('password').invalid">Min length is 6</mat-error>
+                  </mat-form-field>
+                  <mat-form-field floatPlaceholder="never">
+                    <fa [name]="'lock'" matPrefix></fa>
+                    <input type="password" name="password2" matInput placeholder="Repeat password" formControlName="password2" maxlength="30">
+                    <mat-error *ngIf="regForm.get('password2').invalid">Passwords do not match</mat-error>
+                  </mat-form-field>
+                  <button class="btn" mat-raised-button mat-primary [disabled]="!regForm1.valid">Registration</button>
               </form>
-              <button class="btn" md-raised-button (click)='showLogin()'>Back</button>
+              <button class="btn" mat-raised-button (click)='showLogin()'>Back</button>
           </div>
         </ng-template>
       </aside>

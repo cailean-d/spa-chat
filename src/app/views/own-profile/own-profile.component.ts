@@ -37,7 +37,6 @@ export class OwnProfileComponent implements OnInit {
   newpassword: string;
   birthdayDate: Date;
   
-  
   constructor(
     private Title : Title,
     private AppComponent: AppComponent,
