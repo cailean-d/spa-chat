@@ -1,4 +1,4 @@
-<div #friendUser class="user" data-id="{{id}}" (mouseover)="mouseOver(friendUser)" (mouseleave)="mouseLeave(friendUser)">
+<div #friendUser class="user" data-id="{{id}}">
   <div class="userWrap">
     <div class="logo">
       <a routerLink="/profile/{{id}}" draggable="false">
@@ -15,7 +15,7 @@
             <div class="msg">
               <a class="write-message" href="/dialogs/{{id}}">To white a message</a>
             </div>
-            <div #delete class="id delete" data-id="{{id}}" (click)="deleteFriend(delete)">
+            <div #delete class="id delete" data-id="{{id}}">
                 <i class="reject fa fa-ban" aria-hidden="true" title="delete friend"></i>
             </div>
           </div>
