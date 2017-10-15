@@ -45,6 +45,9 @@ function loginUser(req, res){
                     res.status(400).json({ status: 400, message: `Incorrect password`});
                 } else {
                     if(config.auth.type == 'session'){
+                        database.updateUser(doc.id, {status: 'online'}, (err, doc) => {
+                            if(err) console.log(err.message);
+                        })
                         createSession(req, res, doc);
                     } else if (config.auth.type == 'jwt'){
                         createJWT(req, res, doc);
@@ -82,6 +85,9 @@ function registerUser(req, res){
                         res.status(400).json({ status: 400, message: err.message}); 
                     } else {
                         if(config.auth.type == 'session'){
+                            database.updateUser(doc.id, {status: 'online'}, (err, doc) => {
+                                if(err) console.log(err.message);
+                            })
                             createSession(req, res, doc);
                         } else if (config.auth.type == 'jwt'){
                             createJWT(req, res, doc);
@@ -95,6 +101,9 @@ function registerUser(req, res){
 
 function logoutUser(req, res){
     req.session.destroy();
+    database.updateUser(doc.id, {status: 'offline'}, (err, doc) => {
+        if(err) console.log(err.message);
+    })
     res.status(200).json({ status: 200, message: `User logouted!`});
 }
 

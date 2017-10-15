@@ -29,7 +29,6 @@ export class UserProfileComponent implements OnInit {
   language: string;
 
   addInfo: boolean;
-  profileClass: string;
   profileIsExists: boolean;
   isDisableAdd: boolean;
   isFriend: boolean;
@@ -55,7 +54,6 @@ export class UserProfileComponent implements OnInit {
     } else if (this.id == this.LocalStorageService.get('id')){
       this.Router.navigate(['/']);
     } 
-    this.setClass();
     this.getUserStatus();
   }
 
@@ -120,16 +118,6 @@ export class UserProfileComponent implements OnInit {
         thisClass.Title.setTitle(thisClass.nickname);
       }
     });
-  }
-
-  setClass(){
-    setTimeout(()=>{
-      if($(".profile")[0].scrollHeight - 1 > $(".profile")[0].clientHeight){
-        this.profileClass = 'scroll';
-      } else {
-        this.profileClass = 'noscroll';
-      }
-    }, 100);
   }
 
   getUserStatus(){

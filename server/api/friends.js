@@ -140,6 +140,7 @@ function getListOfUsers(req, results, callback){
             } 
             else{
                 friends.push({
+                    id: doc.id,
                     nickname: doc.nickname,
                     firstname: doc.firstname,
                     lastname: doc.lastname,

@@ -5,6 +5,12 @@
     height: 8.5%;    
     max-height: 50px;
     user-select: none;
+
+    .all{
+        @media screen and (max-width: 600px ) {
+            display: none;
+        }            
+    }
     
     a{
         width: 33.33333%;
@@ -67,32 +73,13 @@
 .friendList, .inviteList{
     overflow-y: scroll;
     height: 100%;
+    margin-right: -15px;
 
-    &::-webkit-scrollbar{
-        width: 6px;
-    }
-    &::-webkit-scrollbar-thumb{
-        border-width: 0;
-        border-width:1px 1px 1px 2px;
-        border-color: #777;
-        background-color: #CCCCCC;
-    }
-    &::-webkit-scrollbar-thumb:hover{
-        border-width: 1px 1px 1px 2px;
-        border-color: #555;
-        background-color: #777;
-    }
-    &::-webkit-scrollbar-track{
-        border-width:0;
-    }
-    &::-webkit-scrollbar-track:hover{
-        border-left: solid 1px #aaa;
-        background-color: #eee;
-    }
 }
 .user{
     padding-right: 0.5em;
     padding-left: 0.5em;
+    position: relative;
 
     &:hover{
         background: #EEEDFF;
@@ -133,6 +120,7 @@
                 color: #464646;
             }
             .id i{
+                opacity: 0;
                 cursor: pointer;
                 display: flex;
                 justify-content: flex-end;
@@ -150,6 +138,17 @@
             justify-content: space-between;
             width: 100%;
 
+            .delete{
+                position: absolute;
+                right: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                top: 0;
+                padding: 20px;
+            }
+
             .write-message{
                 margin: 0;
                 padding: 0;
@@ -163,11 +162,13 @@
                 }
             }
             .id i{
+                opacity: 0;
                 cursor: pointer;
                 display: flex;
                 justify-content: flex-end;
                 min-width: 10%;
                 font-size: 1.3em;
+
                 
                 &:hover{
                   color: #FF0000;                

@@ -41,6 +41,7 @@ import { ChatOnlineComponent } from './views/chat-online/chat-online.component';
 import { UserProfileComponent } from './views/user-profile/user-profile.component';
 import { SocketGlobalService } from './services/socket/socket-global.service';
 import { FriendsApiService } from './services/api/friends-api.service';
+import { FriendComponent } from './dynamic/friend/friend.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { FriendsApiService } from './services/api/friends-api.service';
     FriendsComponent,
     SettingsComponent,
     ChatOnlineComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    FriendComponent
   ],
   imports: [
     BrowserModule,

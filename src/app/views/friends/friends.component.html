@@ -1,25 +1,92 @@
 <div class="tabs-buttons">
-  <a class="all-friends" (click)='click_tab($event)'>
-    All Friends
+  <a  #friendsTab class="all-friends" (click)='click_tab(friendsTab)'>
+    <span class="all">All</span> Friends
     <span class="count">{{friendsCount}}</span>
   </a>
-  <a class="online-friends" (click)='click_tab($event)'>
+  <a #onlineTab class="online-friends" (click)='click_tab(onlineTab)'>
     Online
     <span class="count">{{friendsOnlineCount}}</span>
   </a>
-  <a class="invites" (click)='click_tab($event)'>
+  <a #invitesTab class="invites" (click)='click_tab(invitesTab)'>
     Invites
     <span class="count">{{invitesCount}}</span>
   </a>
 </div>
 <div class="tabs-body">
+
   <div class="all-friends">
-    <h2>You have no friends</h2>
+    <div *ngIf='friendsCount > 0; else nofriends' class="friendList">
+    <div *ngFor="let friend of friends">
+      <div #friendUser class="user" data-id="{{friend.id}}" (mouseover)="mouseOver(friendUser)" (mouseleave)="mouseLeave(friendUser)">
+        <div class="userWrap">
+          <div class="logo">
+            <a routerLink="/profile/{{friend.id}}" draggable="false">
+              <img src="assets/img/avatar/default.jpg" alt="{{friend.nickname}}"/>
+            </a>
+          </div>
+          <div class="userBody">
+            <div class="top">
+              <a class="nickname">
+                {{friend.nickname}}
+              </a>
+              </div>
+              <div class="bottom">
+                  <div class="msg">
+                    <a class="write-message" href="/dialogs/{{friend.id}}">To white a message</a>
+                  </div>
+                  <div #delete class="id delete" data-id="{{friend.id}}" (click)="deleteFriend(delete)">
+                      <i class="reject fa fa-ban" aria-hidden="true" title="delete friend"></i>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+     <template #friendsContainer></template>
+    </div>
+    <ng-template #nofriends>
+      <h2>You have no friends</h2>
+    </ng-template>        
   </div>
+
   <div class="online-friends">
     <h2>You have no friends online</h2>
   </div>
   <div class="invites">
-    <h2>You have no invites</h2>
+    <div *ngIf='invitesCount > 0; else noinvites' class="inviteList">
+      <div *ngFor="let invite of invites">
+        <div #invitedUser class="user" data-id="{{invite.id}}" (mouseover)="mouseOver(invitedUser)" (mouseleave)="mouseLeave(invitedUser)">
+          <div class="userWrap">
+            <div class="logo">
+              <a routerLink="/profile/{{invite.id}}" draggable="false">
+                <img src="assets/img/avatar/default.jpg" alt="{{invite.nickname}}"/>
+              </a>
+            </div>
+            <div class="userBody">
+              <div class="top">
+                <a class="nickname">
+                  {{invite.nickname}}
+                </a>
+                <div #accept class="id accept" data-id="{{invite.id}}" (click)="addToFriends(accept)">
+                  <i class="fa fa-check-circle-o" aria-hidden="true" title="add user to friends"></i>
+                </div>
+                </div>
+                <div class="bottom">
+                    <div class="msg">
+                      <a class="write-message" href="/dialogs/{{invite.id}}">To white a message</a>
+                    </div>
+                    <div #reject class="id reject" data-id="{{invite.id}}" (click)="deleteInvite(reject)">
+                        <i class="fa fa-ban" aria-hidden="true" title="delete invite"></i>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        </div>   
+    </div>
+    <ng-template #noinvites>
+      <h2>You have no invites</h2>
+    </ng-template>   
   </div>
+
 </div>

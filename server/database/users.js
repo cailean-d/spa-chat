@@ -14,6 +14,7 @@ userSchema = new Schema({
     email: {type: String, required: true, unique : "email already exists"},
     password: {type: String, required: true},
     avatar: {type: String, default: 'default.jpg'},
+    status: {type: String, default: 'offile'},
     gender: {type: String, default: null},
     about: {type: String, default: null},
     birthday: {type: Date, default: null},
