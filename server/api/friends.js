@@ -163,6 +163,43 @@ function getListOfUsers(req, results, callback){
     }
 }
 
+function isFriend(req, res){
+
+    if(!req.params.id){
+        return res.status(400).json({ status: 400, message: 'Id is required'}); 
+    }
+
+    database.isFriend(req.session.userid, req.params.id, (err, doc) => {
+        if (err){
+            console.log(err.message);
+            res.status(500).json({ status: 500, message: err.message}); 
+        } else if (!doc){
+            res.status(404).json({ status: 404, message: false});
+        } else {
+            res.status(200).json({ status: 200, message: true});
+        }
+    })
+}
+
+function isInvited(req, res){
+
+    if(!req.params.id){
+        return res.status(400).json({ status: 400, message: 'Id is required'}); 
+    }
+
+    database.isInvited(req.session.userid, req.params.id, (err, doc) => {
+        if (err){
+            console.log(err.message);
+            res.status(500).json({ status: 500, message: err.message}); 
+        } else if (!doc){
+            res.status(404).json({ status: 404, message: false});
+        } else {
+            res.status(200).json({ status: 200, message: true});
+        }
+    })
+}
+
+
 
 module.exports.inviteFriend = inviteFriend;    
 module.exports.addFriend = addFriend;              
@@ -172,3 +209,5 @@ module.exports.getFriends = getFriends;
 module.exports.getInvites = getInvites;
 module.exports.getFriendsCount = getFriendsCount;
 module.exports.getInvitesCount = getInvitesCount;
+module.exports.isFriend = isFriend;
+module.exports.isInvited = isInvited;

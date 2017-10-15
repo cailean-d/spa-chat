@@ -84,6 +84,26 @@ function getFriendsCount(id, callback){
     });
 }
 
+function isFriend(user1, user2, callback){
+    friends.findOne({
+        $and:[{ 
+            $or: [
+                { $and: [{friend_1: user1}, {friend_2: user2}] },
+                { $and: [{friend_1: user2}, {friend_2: user1}] }
+                ]
+            }
+        , { status: 1 }]
+    },  function (err, doc){
+        callback(err, doc);
+    });
+}
+
+function isInvited(user1, user2, callback){
+    friends.findOne({$and:[ {friend_1: user1}, {friend_2: user2}, {status: 0}]},  function (err, doc){
+        callback(err, doc);
+    });
+}
+
  module.exports.inviteFriend = inviteFriend;    
  module.exports.addFriend = addFriend;              
  module.exports.deleteFriend = deleteFriend;        
@@ -92,3 +112,5 @@ function getFriendsCount(id, callback){
  module.exports.getInvites = getInvites;
  module.exports.getFriendsCount = getFriendsCount;
  module.exports.getInvitesCount = getInvitesCount;
+ module.exports.isFriend = isFriend;
+ module.exports.isInvited = isInvited;

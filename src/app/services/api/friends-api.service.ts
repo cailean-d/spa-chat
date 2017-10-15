@@ -112,4 +112,28 @@ export class FriendsApiService {
       }
     );
   }
+
+  isInvited(id : number, callback: Function):any{
+    this.http.put(this.URL_INVITE + id, {})
+    .toPromise().then(
+      res => { 
+        callback(null, res);
+      },
+      err => {
+        callback(err.error);
+      }
+    );
+  }
+
+  isFriend(id : number, callback: Function):any{
+    this.http.put(this.URL_FRIEND + id, {})
+    .toPromise().then(
+      res => { 
+        callback(null, res);
+      },
+      err => {
+        callback(err.error);
+      }
+    );
+  }
 }

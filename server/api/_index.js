@@ -26,5 +26,7 @@ router.post('/friends/invite/:id', (req, res) => {friends.inviteFriend(req, res)
 router.post('/friends/friend/:id', (req, res) => {friends.addFriend(req, res)});
 router.delete('/friends/invite/:id', (req, res) => {friends.rejectFriend(req, res)});
 router.delete('/friends/friend/:id', (req, res) => {friends.deleteFriend(req, res)});
+router.put('/friends/invite/:id', (req, res) => {friends.isInvited(req, res)});
+router.put('/friends/friend/:id', (req, res) => {friends.isFriend(req, res)});
 
 module.exports = router;
