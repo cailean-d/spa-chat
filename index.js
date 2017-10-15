@@ -26,21 +26,29 @@ const api = require('./server/api/_index');
 const auth = require('./server/auth/auth');
 const authmw = require('./server/middlewares/auth');
 
+//socket namespaces
+let global = io;
+let friends = io.of('/friends');
+let general_chat = io.of('/general_chat');
+
+//socket modules
+let global_socket       = require('./server/socket/global')(global);
+// let socket_general_chat = require('./server/socket/general_chat')(global);
+// let socket_friends      = require('./server/socket/friends')(friends, global);
+
 //middlewares
-app.use(bodyParser.json());                                    // post data json
-app.use(bodyParser.urlencoded({ extended: false }));           // post data encoded
-app.use(fileUpload({
-    limits: { fileSize: 10 * 1024 * 1024 },
-}));                                                           // file upload mw
-app.use(device.capture());                                     // user device type info
-app.use(useragent.express());                                  // user browser info
-app.use(requestIp.mw())                                        // user ip info
-app.use(cookieParser(config.auth.session.secret))              // parse cookie
-app.use(session(sessionConfig(session)));                      // app sessions
-app.use(express.static('client'));                             // static dir
-app.use('/auth', auth);                                        // aut
-app.use('/api', authmw);                                       // auth is required for api
-app.use('/api', api);                                          // include server api
+app.use(bodyParser.json());                                        // post data json
+app.use(bodyParser.urlencoded({ extended: false }));               // post data encoded
+app.use(fileUpload({ limits: { fileSize: 10 * 1024 * 1024 }}));    // file upload mw
+app.use(device.capture());                                         // user device type info
+app.use(useragent.express());                                      // user browser info
+app.use(requestIp.mw())                                            // user ip info
+app.use(cookieParser(config.auth.session.secret))                  // parse cookie
+app.use(session(sessionConfig(session)));                          // app sessions
+app.use(express.static('client'));                                 // static dir
+app.use('/auth', auth);                                            // aut
+app.use('/api', authmw);                                           // auth is required for api
+app.use('/api', api);                                              // include server api
 
 
 //send index file from all routes
@@ -50,7 +58,7 @@ app.get('*', (req, res) => {
   
 
 // connect to database
-mongoose.Promise = global.Promise;
+mongoose.set('Promise', Promise);
 mongoose.connect(dbConfig, {useMongoClient: true}, function(err) {
     if (err) throw err;
     console.log('connected to mongodb!');

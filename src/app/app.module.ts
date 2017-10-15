@@ -39,6 +39,7 @@ import { FriendsComponent } from './views/friends/friends.component';
 import { SettingsComponent } from './views/settings/settings.component';
 import { ChatOnlineComponent } from './views/chat-online/chat-online.component';
 import { UserProfileComponent } from './views/user-profile/user-profile.component';
+import { SocketGlobalService } from './services/socket/socket-global.service';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { UserProfileComponent } from './views/user-profile/user-profile.componen
     AuthGuard, 
     AuthService, 
     ApiService, 
+    SocketGlobalService,
     {provide: 
       BrowserXhr, 
       useClass: NgProgressBrowserXhr

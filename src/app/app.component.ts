@@ -6,6 +6,7 @@ import { LocalStorageService } from 'angular-2-local-storage';
 import { SelectItem } from 'primeng/components/common/api';
 import { Message } from 'primeng/components/common/api';
 import { MessageService } from 'primeng/components/common/messageservice';
+import { SocketGlobalService } from './services/socket/socket-global.service';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
             ></ng-progress>
             <router-outlet></router-outlet>
             `,
-  providers: [MessageService]
+  providers: [MessageService, SocketGlobalService]
 })
 export class AppComponent implements OnInit {
 
@@ -32,22 +33,24 @@ export class AppComponent implements OnInit {
     private AuthService: AuthService,
     private ApiService: ApiService,
     private localStorageService: LocalStorageService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private SocketGlobalService: SocketGlobalService
   ) {}
 
   ngOnInit() {
-
+    this.SocketGlobalService.send();
     if(window.location.pathname != '/login' && window.location.pathname != '/404'){
       this.getUserData();
     }
 
-    return this.AuthService.checkAuth((err, res) => {
+    this.AuthService.checkAuth((err, res) => {
       if (err) {
         this.removeLocalStorage();
       } else {
         this.getUserData();
       }
    });
+
   }
 
   getUserData(){
