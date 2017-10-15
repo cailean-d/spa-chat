@@ -7,6 +7,9 @@ export class FriendsApiService {
 
   private URL_INVITE: string = 'api/friends/invite/';
   private URL_FRIEND: string = 'api/friends/friend/';
+  private URL_IS_INVITED: string = 'api/friends/isinvited/';
+  private URL_IS_FRIEND: string = 'api/friends/isfriend/';
+  private URL_ME_IS_INVITED: string = 'api/friends/isinvited/me/';
   private URL_GET_INVITES: string = 'api/friends/invites';
   private URL_GET_FRIENDS: string = 'api/friends/friends';
   private URL_INVITES_COUNT: string = 'api/friends/invites/count';
@@ -114,7 +117,7 @@ export class FriendsApiService {
   }
 
   isInvited(id : number, callback: Function):any{
-    this.http.put(this.URL_INVITE + id, {})
+    this.http.get(this.URL_IS_INVITED + id, {})
     .toPromise().then(
       res => { 
         callback(null, res);
@@ -126,7 +129,19 @@ export class FriendsApiService {
   }
 
   isFriend(id : number, callback: Function):any{
-    this.http.put(this.URL_FRIEND + id, {})
+    this.http.get(this.URL_IS_FRIEND + id, {})
+    .toPromise().then(
+      res => { 
+        callback(null, res);
+      },
+      err => {
+        callback(err.error);
+      }
+    );
+  }
+  
+  meIsInvited(id : number, callback: Function){
+    this.http.get(this.URL_ME_IS_INVITED + id, {})
     .toPromise().then(
       res => { 
         callback(null, res);

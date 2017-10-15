@@ -7,8 +7,8 @@
       <div class="nickname">
           {{nickname}}
       </div>
-      <button class="btn" md-raised-button mat-primary [disabled]="isDisableAdd">Add to friends</button>
-      <button class="btn" md-raised-button mat-primary [disabled]="">Text a message</button>
+      <button class="btn" mat-raised-button mat-primary [disabled]="isDisableAdd" (click)="friendFunc()">{{buttonText}}</button>
+      <button class="btn" mat-raised-button mat-primary [disabled]="">Text a message</button>
     </div>
     <div class="right">
       <div class="block">

@@ -1,3 +1,4 @@
+import { FriendsApiService } from '../../services/api/friends-api.service';
 import { LocalStorageService } from 'angular-2-local-storage/dist';
 import { ApiService } from '../../services/api.service';
 import { Component, OnInit } from '@angular/core';
@@ -33,6 +34,8 @@ export class UserProfileComponent implements OnInit {
   isDisableAdd: boolean;
   isFriend: boolean;
   isInvited: boolean;
+  me_isInvited: boolean;
+  buttonText: string;
 
   constructor(
     private Title: Title,
@@ -41,6 +44,7 @@ export class UserProfileComponent implements OnInit {
     private ApiService: ApiService,
     private AppComponent: AppComponent,
     private LocalStorageService: LocalStorageService,
+    private FriendsApiService: FriendsApiService
   ) { }
 
   ngOnInit() {
@@ -129,10 +133,110 @@ export class UserProfileComponent implements OnInit {
   }
 
   getUserStatus(){
-    if(this.isFriend || this.isInvited){
-      this.isDisableAdd = true;
-    } else {
-      this.isDisableAdd = false;
+    this.userIsFriend((data)=>{
+      if(data){
+          this.isFriend = true;
+          this.isDisableAdd = false;
+          this.buttonText = 'Delete from friends';
+      } else {
+        this.userIsInvited((data)=>{
+          if(data){
+            this.isInvited = true;
+            this.isDisableAdd = true;
+            this.buttonText = 'Invited';
+          } else {
+            this.meIsInvited((data) =>{
+              if(data){
+                this.me_isInvited = true;
+                this.buttonText = 'Confirm friendship';
+              } else {
+                this.buttonText = 'Add to friends';
+              }
+            })
+          }
+        })
+      }
+    });
+  }
+
+  userIsFriend(callback){
+    this.FriendsApiService.isFriend(this.id, (err, data) =>{
+        if(err){
+          callback(false);
+        } else {
+          callback(true);
+        }
+    })
+  }
+
+  userIsInvited(callback){
+    this.FriendsApiService.isInvited(this.id, (err, data) => {
+      if(err){
+        callback(false);
+      } else {
+        callback(true);
+      }
+    })
+  }
+  
+  meIsInvited(callback){
+    this.FriendsApiService.meIsInvited(this.id, (err, data) => {
+      if(err){
+        callback(false);
+      } else {
+        callback(true);
+      }
+    })
+  }
+
+  addToFriends(){
+    this.FriendsApiService.addFriend(this.id, (err, data) => {
+      if(err){
+        this.AppComponent.showError(err.message);
+      } else {
+        this.isFriend = true;
+        this.isDisableAdd = false;
+        this.buttonText = 'Delete from friends';
+        this.AppComponent.showInfo(this.nickname + ' added to friends');
+      }
+    })
+  }
+
+  inviteToFriends(){
+    this.FriendsApiService.inviteFriend(this.id, (err, data) => {
+      if(err){
+        this.AppComponent.showError(err.message);
+      } else {
+        this.isInvited = true;
+        this.isDisableAdd = true;
+        this.buttonText = 'Invited';
+        this.AppComponent.showInfo('You sent invite to ' + this.nickname)
+      }
+    })
+  }
+
+  deleteFriend(){
+    this.FriendsApiService.deleteFriend(this.id, (err, data) => {
+      if(err){
+        this.AppComponent.showError(err.message);
+      } else {
+        this.isInvited = false;
+        this.isDisableAdd = false;
+        this.isFriend = false;
+        this.me_isInvited = false;
+        this.buttonText = 'Add to friends';
+        this.AppComponent.showInfo(this.nickname + ' is deleted from friends');
+      }
+    })
+  }
+
+  friendFunc(){
+    if(this.isFriend){
+      this.deleteFriend();
+    } else if(this.me_isInvited){
+      this.addToFriends();
+    } else if(!this.isFriend && !this.isInvited){
+      this.inviteToFriends();
     }
   }
 

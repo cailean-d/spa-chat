@@ -22,11 +22,13 @@ router.get('/friends/friends', (req, res) => {friends.getFriends(req, res)});
 router.get('/friends/invites', (req, res) => {friends.getInvites(req, res)});
 router.get('/friends/friends/count', (req, res) => {friends.getFriendsCount(req, res)});
 router.get('/friends/invites/count', (req, res) => {friends.getInvitesCount(req, res)});
+router.get('/friends/isinvited/:id', (req, res) => {friends.isInvited(req, res)});
+router.get('/friends/isfriend/:id', (req, res) => {friends.isFriend(req, res)});
+router.get('/friends/isinvited/me/:id', (req, res) => {friends.meIsInvited(req, res)});
 router.post('/friends/invite/:id', (req, res) => {friends.inviteFriend(req, res)});
 router.post('/friends/friend/:id', (req, res) => {friends.addFriend(req, res)});
 router.delete('/friends/invite/:id', (req, res) => {friends.rejectFriend(req, res)});
 router.delete('/friends/friend/:id', (req, res) => {friends.deleteFriend(req, res)});
-router.put('/friends/invite/:id', (req, res) => {friends.isInvited(req, res)});
-router.put('/friends/friend/:id', (req, res) => {friends.isFriend(req, res)});
+
 
 module.exports = router;

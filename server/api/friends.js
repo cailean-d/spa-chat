@@ -199,6 +199,23 @@ function isInvited(req, res){
     })
 }
 
+function meIsInvited(req, res){
+    if(!req.params.id){
+        return res.status(400).json({ status: 400, message: 'Id is required'}); 
+    }
+
+    database.isInvited(req.params.id, req.session.userid, (err, doc) => {
+        if (err){
+            console.log(err.message);
+            res.status(500).json({ status: 500, message: err.message}); 
+        } else if (!doc){
+            res.status(404).json({ status: 404, message: false});
+        } else {
+            res.status(200).json({ status: 200, message: true});
+        }
+    })
+}
+
 
 
 module.exports.inviteFriend = inviteFriend;    
@@ -211,3 +228,4 @@ module.exports.getFriendsCount = getFriendsCount;
 module.exports.getInvitesCount = getInvitesCount;
 module.exports.isFriend = isFriend;
 module.exports.isInvited = isInvited;
+module.exports.meIsInvited = meIsInvited;
