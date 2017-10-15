@@ -40,6 +40,8 @@ import { SettingsComponent } from './views/settings/settings.component';
 import { ChatOnlineComponent } from './views/chat-online/chat-online.component';
 import { UserProfileComponent } from './views/user-profile/user-profile.component';
 import { SocketGlobalService } from './services/socket/socket-global.service';
+import { FriendsApiService } from './services/api/friends-api.service';
+
 
 @NgModule({
   declarations: [
@@ -88,6 +90,7 @@ import { SocketGlobalService } from './services/socket/socket-global.service';
     AuthService, 
     ApiService, 
     SocketGlobalService,
+    FriendsApiService,
     {provide: 
       BrowserXhr, 
       useClass: NgProgressBrowserXhr

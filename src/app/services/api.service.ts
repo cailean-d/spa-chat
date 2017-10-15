@@ -1,29 +1,26 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { LocalStorageService } from 'angular-2-local-storage';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
 export class ApiService {
 
-  private getUsersURL: string = 'api/users';
-  private getUsersCountURL: string = 'api/users/count';
-  private getMyProfileURL: string = 'api/users/me';
-  private UsersURL: string = 'api/users/';
-  private countUsersURL: string = 'api/users/count';
+  private URL_GET_USERS: string = 'api/users';
+  private URL_USERS_COUNT: string = 'api/users/count';
+  private URL_GET_MY_PROFILE: string = 'api/users/me';
+  private URL_GET_USER_PROFILE: string = 'api/users/';
 
-  private uploadAvatarURL: string = 'api/upload/avatar';
+  private URL_UPLOAD_AVATAR: string = 'api/upload/avatar';
 
-  private headers = new HttpHeaders({'Content-Type': 'application/json'});
+  private HEADERS_POST = new HttpHeaders({'Content-Type': 'application/json'});
   
   constructor(
-    private http: HttpClient,
-    private localStorageService: LocalStorageService
+    private http: HttpClient
   ) { }
 
 
   getMyProfile(callback: Function):any{
-    this.http.get(this.getMyProfileURL, {})
+    this.http.get(this.URL_GET_MY_PROFILE, {})
     .toPromise().then(
       res => { 
         callback(null, res);
@@ -35,7 +32,7 @@ export class ApiService {
   }
 
   updateProfile(data : Object, callback: Function):any{
-    this.http.put(this.getUsersURL, data, {headers : this.headers})
+    this.http.put(this.URL_GET_USERS, data, {headers : this.HEADERS_POST})
     .toPromise().then(
       res => { 
         callback(null, res);
@@ -46,7 +43,7 @@ export class ApiService {
     );
   }
   deleteProfile(data : Object, callback: Function):any{
-    this.http.delete(this.getUsersURL)
+    this.http.delete(this.URL_GET_USERS)
     .toPromise().then(
       res => { 
         callback(null, res);
@@ -58,7 +55,7 @@ export class ApiService {
   }
 
   getUsersCount(callback: Function):any{
-    this.http.get(this.countUsersURL, {})
+    this.http.get(this.URL_USERS_COUNT, {})
     .toPromise().then(
       res => { 
         callback(null, res);
@@ -70,7 +67,7 @@ export class ApiService {
   }
 
   getUser(id:number, callback: Function):any{
-    this.http.get(this.UsersURL + id)
+    this.http.get(this.URL_GET_USER_PROFILE + id)
     .toPromise().then(
       res => { 
         callback(null, res);
@@ -82,7 +79,7 @@ export class ApiService {
   }
 
   getUsers(offset:number, limit:number, callback: Function):any{
-    this.http.get(this.UsersURL + `?offset=${offset}&limit=${limit}`, {})
+    this.http.get(this.URL_GET_USER_PROFILE + `?offset=${offset}&limit=${limit}`, {})
     .toPromise().then(
       res => { 
         callback(null, res);
@@ -94,7 +91,7 @@ export class ApiService {
   }
 
   uploadAvatar(data : Object, callback: Function):any{
-    this.http.post(this.uploadAvatarURL, data)
+    this.http.post(this.URL_UPLOAD_AVATAR, data)
     .toPromise().then(
       res => { 
         callback(null, res);
