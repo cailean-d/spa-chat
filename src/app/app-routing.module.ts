@@ -24,11 +24,6 @@ const routes: Routes = [
     { path: '', component: FriendsComponent, outlet: 'app-main' },
     { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
   ]},
-  { path: 'general_chat', component: MainTemplateComponent, canActivate: [AuthGuard], children: [
-    { path: '', component: HeaderComponent, outlet: 'app-header' },
-    { path: '', component: GeneralChatComponent, outlet: 'app-main' },
-    { path: '', component: MainMenuComponent, outlet: 'app-aside-left' },
-  ]},
   { path: 'settings', component: MainTemplateComponent, canActivate: [AuthGuard], children: [
     { path: '', component: HeaderComponent, outlet: 'app-header' },
     { path: '', component: SettingsComponent, outlet: 'app-main' },

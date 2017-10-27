@@ -100,10 +100,10 @@ function registerUser(req, res){
 }
 
 function logoutUser(req, res){
-    req.session.destroy();
-    database.updateUser(doc.id, {status: 'offline'}, (err, doc) => {
+    database.updateUser(req.session.userid, {status: 'offline'}, (err, doc) => {
         if(err) console.log(err.message);
     })
+    req.session.destroy();
     res.status(200).json({ status: 200, message: `User logouted!`});
 }
 
