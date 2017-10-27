@@ -10,7 +10,6 @@ import { OwnProfileComponent } from './views/own-profile/own-profile.component';
 import { MainMenuComponent } from './views/main-menu/main-menu.component';
 import { HeaderComponent } from './views/header/header.component';
 import { FriendsComponent } from './views/friends/friends.component';
-import { GeneralChatComponent } from './views/general-chat/general-chat.component';
 import { UserProfileComponent } from './views/user-profile/user-profile.component';
 
 const routes: Routes = [
