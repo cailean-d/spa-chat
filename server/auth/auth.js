@@ -15,127 +15,115 @@ router.post('/check', (req, res) => {checkAuth(req, res)})
 
 module.exports = router;
 
-
 //=============================================================================
 //=============================================================================
 
+async function loginUser(req, res){
+    try {
+        if(!req.body.email){
+            return res.status(400).json({ status: 400, message: 'Email is required'}); 
+        }
+        if(!req.body.password){
+            return res.status(400).json({ status: 400, message: 'Password is required'}); 
+        }
 
-function loginUser(req, res){
-    let data = req.body; 
+        let user = await database.getUserByEmail(req.body.email);
 
-    if(!data.email){
-        return res.status(400).json({ status: 400, message: 'Email is required'}); 
+        if(!user){
+            return res.status(400).json({ status: 400, message: `The email does not exists!`});
+        }
+
+        let comparePassword = await bcrypt.compare(req.body.password, user.password);
+
+        if(!comparePassword){
+            return res.status(400).json({ status: 400, message: `Incorrect password`});
+        }
+
+        if(config.auth.type == 'session'){
+            await database.updateUser(doc.id, {status: 'online'})
+            createSession(req, res, doc);
+        } else if (config.auth.type == 'jwt'){
+            createJWT(req, res, doc);
+        }
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ status: 500, message: error}); 
     }
-    if(!data.password){
-        return res.status(400).json({ status: 400, message: 'Password is required'}); 
-    }
+}
 
-    database.getUserByEmail(data.email, function(err, doc){
-        if (err){
-            console.log(err);
-            res.status(500).json({ status: 500, message: 'Cannot log in!'}); 
-        } else if(!doc){
-            res.status(400).json({ status: 400, message: `The email does not exists!`});
-        } else{
-            bcrypt.compare(data.password, doc.password, function(err, doesMatch){
-                if (err){
-                    console.log(err);
-                    res.status(500).json({ status: 500, message: 'Cannot log in!'}); 
-                } else if(!doesMatch){
-                    res.status(400).json({ status: 400, message: `Incorrect password`});
+async function registerUser(req, res){
+
+    try {
+        if(!req.body.nickname){
+            return res.status(400).json({ status: 400, message: 'Nickname is required'}); 
+        }
+        if (!req.body.email){
+            return res.status(400).json({ status: 400, message: 'Email is required'}); 
+        }
+        if (!req.body.password){
+            return  res.status(400).json({ status: 400, message: 'Password is required'}); 
+        }
+
+        let bcryptedPassword = await bcrypt.hash(req.body.password, 8);
+        let newUser = database.registerUser(req.body.nickname, req.body.email, bcryptedPassword);
+
+        await database.updateUser(doc.id, {status: 'online'});
+        
+        if(config.auth.type == 'session'){
+            createSession(req, res, doc);
+        } else if (config.auth.type == 'jwt'){
+            createJWT(req, res, doc);
+        }
+
+    } catch (error) {
+        console.log(error);
+        if(error.code === 11000){
+            res.status(400).json({ status: 400, message: "Email or Nickname already exists"}); 
+        } else {
+            res.status(400).json({ status: 400, message: err.message});
+        }
+    }
+}
+
+async function logoutUser(req, res){
+    try {
+        await database.updateUser(req.session.userid, {status: 'offline'});
+        req.session.destroy();
+        return res.status(200).json({ status: 200, message: "success"});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ status: 500, message: error}); 
+    }
+}
+
+async function checkAuth(req, res){
+    try {
+        if(config.auth.type == 'session'){
+            if(req.session.logined){
+                return res.status(200).json({ status: 200, message: true});
+            } else {
+                return res.status(401).json({ status: 401, message: false});
+            }
+        } else if (config.auth.type == 'jwt'){
+            if(req.headers && req.headers.authorization){
+                let verify = await jwt.verify(req.headers.authorization, config.auth.jwt.secret);
+
+                if(verify){
+                    return res.status(200).json({ status: 200, message: true});
                 } else {
-                    if(config.auth.type == 'session'){
-                        database.updateUser(doc.id, {status: 'online'}, (err, doc) => {
-                            if(err) console.log(err.message);
-                        })
-                        createSession(req, res, doc);
-                    } else if (config.auth.type == 'jwt'){
-                        createJWT(req, res, doc);
-                    }
+                    return res.status(401).json({ status: 401, message: false});
                 }
-              });
+
+            } else{
+                res.status(401).json({ status: 401, message: false});
+            }
         }
-    })
-}
-
-
-function registerUser(req, res){
-    let data = req.body; 
-    
-    if(!data.nickname){
-        return res.status(400).json({ status: 400, message: 'Nickname is required'}); 
-    }
-    if (!data.email){
-        return res.status(400).json({ status: 400, message: 'Email is required'}); 
-    }
-    if (!data.password){
-        return  res.status(400).json({ status: 400, message: 'Password is required'}); 
-    }
-
-
-    bcrypt.hash(data.password, 8, function( err, bcryptedPassword) {
-        if(err){
-            console.log(err);
-            res.status(500).json({ status: 500, message: 'Cannot create user!'}); 
-        } else {
-            database.registerUser(data.nickname, data.email, bcryptedPassword, 
-                function(err, doc, affected){
-                    if(err){
-                        console.log(err);
-                        if(err.code === 11000){
-                            res.status(400).json({ status: 400, message: "Email or Nickname already exists"}); 
-                        } else {
-                            res.status(400).json({ status: 400, message: err.message});
-                        }
-                    } else {
-                        if(config.auth.type == 'session'){
-                            database.updateUser(doc.id, {status: 'online'}, (err, doc) => {
-                                if(err) console.log(err.message);
-                            })
-                            createSession(req, res, doc);
-                        } else if (config.auth.type == 'jwt'){
-                            createJWT(req, res, doc);
-                        }
-                    }
-                }) 
-        }
-    });
-
-}
-
-function logoutUser(req, res){
-    database.updateUser(req.session.userid, {status: 'offline'}, (err, doc) => {
-        if(err) console.log(err.message);
-    })
-    req.session.destroy();
-    res.status(200).json({ status: 200, message: `User logouted!`});
-}
-
-
-function checkAuth(req, res){
-    if(config.auth.type == 'session'){
-        if(req.session.logined){
-            res.status(200).json({ status: 200, message: true});
-        } else {
-            res.status(401).json({ status: 401, message: false});
-        }
-    } else if (config.auth.type == 'jwt'){
-        if(req.headers && req.headers.authorization){
-            jwt.verify(req.headers.authorization, config.auth.jwt.secret, function(err, decoded) {
-               if (err){
-                   console.log(err);
-                   res.status(401).json({ status: 401, message: false});
-               } else {
-                   res.status(200).json({ status: 200, message: true});
-               }
-              }); 
-        } else{
-            res.status(200).json({ status: 200, message: false});
-        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ status: 500, message: error}); 
     }
 }
-
-
 
 function createSession(req, res, doc){
     req.session.logined = true;
@@ -143,24 +131,24 @@ function createSession(req, res, doc){
     req.session.firstname = doc.firstname;
     req.session.lastname = doc.lastname;
     req.session.userinfo = userinfo(req);
-    res.status(200).json({ status: 200, type: 'session', message: `User [${doc.id}] logined!!!`});
+    return res.status(200).json({ status: 200, type: 'session', message: "success"});
 }
 
-function createJWT(req, res, doc){
-    jwt.sign({
-         logined : true,
-         userid : doc.id,
-         firstname : doc.firstname,
-         lastname : doc.lastname,
-         userinfo : userinfo(req)
-        }, config.auth.jwt.secret, 
-        { algorithm: config.auth.jwt.algorithm,
-          expiresIn: config.auth.jwt.maxAge + 'd'
-        }, function(err, token) {
-            if(err){
-                console.log(err);
-            } else {
-                res.status(200).json({ status: 200, type: 'jwt', message: token});
-            }
-      });
+async function createJWT(req, res, doc){
+    try {
+        let signToken = await jwt.sign({
+            logined : true,
+            userid : doc.id,
+            firstname : doc.firstname,
+            lastname : doc.lastname,
+            userinfo : userinfo(req)
+           }, config.auth.jwt.secret, 
+           { algorithm: config.auth.jwt.algorithm,
+             expiresIn: config.auth.jwt.maxAge + 'd'
+           });
+        return res.status(200).json({ status: 200, type: 'jwt', message: token});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ status: 500, message: error}); 
+    }
 }
