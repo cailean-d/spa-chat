@@ -65,6 +65,22 @@ function rejectFriend(req, res){
     })
 }
 
+function cancelInvite(req, res){
+
+    if(!req.params.id){
+        return res.status(400).json({ status: 400, message: 'Receiver is required'}); 
+    }
+
+    database.rejectFriend(req.session.userid, req.params.id, (err, doc) => {
+        if (err){
+            console.log(err.message);
+            res.status(500).json({ status: 500, message: err.message}); 
+        } else{
+            res.status(200).json(doc);
+        }
+    })
+}
+
 function getFriends(req, res){
     database.getFriends(req.session.userid, (err, results) => {
         if (err){
@@ -230,3 +246,4 @@ module.exports.getInvitesCount = getInvitesCount;
 module.exports.isFriend = isFriend;
 module.exports.isInvited = isInvited;
 module.exports.meIsInvited = meIsInvited;
+module.exports.cancelInvite = cancelInvite;

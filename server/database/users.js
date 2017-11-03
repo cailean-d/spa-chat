@@ -23,6 +23,7 @@ userSchema = new Schema({
     country: {type: String, default: null},
     city: {type: String, default: null},
     language: {type: Array, default: null},
+    rooms: {type: Array, default: null},
     date: {type: Date, default: Date.now}
 });
 
@@ -81,6 +82,23 @@ function getCount(callback){
     });
 }
 
+function addRoom(room, user, callback){
+    users.update(
+        { id: user }, 
+        { $push: { rooms: room } },
+        function(err, doc){
+            callback(err, doc);
+    });
+}
+function deleteRoom(room, user, callback){
+    users.update(
+        { id: user }, 
+        { $pull: { rooms: room } },
+        function(err, doc){
+            callback(err, doc);
+    });
+}
+
  module.exports.registerUser = registerUser;    // C
  module.exports.getUser = getUser;              // R
  module.exports.updateUser = updateUser;        // U 
@@ -88,3 +106,5 @@ function getCount(callback){
  module.exports.getUsers = getUsers;
  module.exports.getCount = getCount;
  module.exports.getUserByEmail = getUserByEmail;
+ module.exports.addRoom = addRoom;
+ module.exports.deleteRoom = deleteRoom;

@@ -55,7 +55,25 @@ function getMyProfile(req, res){
             res.status(404).json({ status: 404, message: 'User not found'});
         } 
         else{
-            res.status(200).json(doc);
+            res.status(200).json({
+                id: doc.id,
+                nickname: doc.nickname,
+                email: doc.email,
+                date: doc.date,
+                rooms: doc.rooms,
+                language: doc.language,
+                city: doc.city,
+                country: doc.country,
+                website: doc.website,
+                phone: doc.phone,
+                birthday: doc.birthday,
+                about: doc.about,
+                gender: doc.gender,
+                status: doc.status,
+                avatar: doc.avatar,
+                lastname: doc.lastname,
+                firstname: doc.firstname
+            });
         }
     }) 
 }

@@ -82,7 +82,11 @@ function registerUser(req, res){
                 function(err, doc, affected){
                     if(err){
                         console.log(err);
-                        res.status(400).json({ status: 400, message: err.message}); 
+                        if(err.code === 11000){
+                            res.status(400).json({ status: 400, message: "Email or Nickname already exists"}); 
+                        } else {
+                            res.status(400).json({ status: 400, message: err.message});
+                        }
                     } else {
                         if(config.auth.type == 'session'){
                             database.updateUser(doc.id, {status: 'online'}, (err, doc) => {
