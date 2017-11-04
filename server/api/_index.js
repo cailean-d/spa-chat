@@ -19,6 +19,7 @@ router.delete('/users', (req, res) => {users.deleteUser(req, res)});
 
 // upload api
 router.post('/upload/avatar', (req, res) => {upload.uploadAvatar(req, res)});
+router.post('/upload/room/:room', (req, res) => {upload.uploadRoomImage(req, res)});
 
 // friends api
 router.get('/friends/friends', (req, res) => {friends.getFriends(req, res)});

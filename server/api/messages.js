@@ -186,8 +186,6 @@ async function getMessages(req, res){
     }
 }
 
-
-
 module.exports.getMessage = getMessage;
 module.exports.getMessages = getMessages;
 module.exports.addMessage = addMessage;
