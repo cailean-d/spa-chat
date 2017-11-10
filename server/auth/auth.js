@@ -40,10 +40,10 @@ async function loginUser(req, res){
         }
 
         if(config.auth.type == 'session'){
-            await database.updateUser(doc.id, {status: 'online'})
-            createSession(req, res, doc);
+            await database.updateUser(user.id, {status: 'online'})
+            createSession(req, res, user);
         } else if (config.auth.type == 'jwt'){
-            createJWT(req, res, doc);
+            createJWT(req, res, user);
         }
 
     } catch (error) {
@@ -66,14 +66,14 @@ async function registerUser(req, res){
         }
 
         let bcryptedPassword = await bcrypt.hash(req.body.password, 8);
-        let newUser = database.registerUser(req.body.nickname, req.body.email, bcryptedPassword);
+        let newUser = await database.registerUser(req.body.nickname, req.body.email, bcryptedPassword);
 
-        await database.updateUser(doc.id, {status: 'online'});
+        await database.updateUser(newUser.id, {status: 'online'});
         
         if(config.auth.type == 'session'){
-            createSession(req, res, doc);
+            createSession(req, res, newUser);
         } else if (config.auth.type == 'jwt'){
-            createJWT(req, res, doc);
+            createJWT(req, res, newUser);
         }
 
     } catch (error) {

@@ -14,144 +14,94 @@ friendSchema = new Schema({
 
 friends = database.model('friends', friendSchema);
  
-async function inviteFriend(sender, receiver){
-    try {
-        friend = new friends({
-            friend_1: sender,
-            friend_2: receiver,
-        });
-       return await friend.save();
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+function inviteFriend(sender, receiver){
+    friend = new friends({
+        friend_1: sender,
+        friend_2: receiver,
+    });
+    return friend.save();
 }
 
-async function addFriend(sender, receiver, callback){
-    try{
-        return await friends.findOneAndUpdate({
-            $and:[ 
-                {friend_1: sender}, 
-                {friend_2: receiver}
-            ]}, 
-            {status: 1}, { new: true });
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+function addFriend(sender, receiver, callback){
+    return friends.findOneAndUpdate({
+        $and:[ 
+            {friend_1: sender}, 
+            {friend_2: receiver}
+        ]}, 
+        {status: 1}, { new: true });
 }
  
-async function deleteFriend(sender, receiver){
-    try {
-        return await friends.findOneAndRemove({
+function deleteFriend(sender, receiver){
+    return friends.findOneAndRemove({
+        $or: [
+            { $and: [{friend_1: sender}, {friend_2: receiver}] },
+            { $and: [{friend_1: receiver}, {friend_2: sender}] }
+        ]
+    });
+}
+
+function rejectFriend(sender, receiver){
+    return friends.findOneAndRemove({
+        $and:[ 
+            {friend_1: sender}, 
+            {friend_2: receiver}, 
+            {status: 0}
+        ]});
+}
+
+function getFriends(id){
+    return friends.find({
+        $and: [
+            { $or: [{friend_1: id}, {friend_2: id}] },
+            { status: 1 }
+        ]
+    });
+}
+
+function getInvites(id){
+    return friends.find({ 
+        $and: [ 
+            { friend_2: id }, 
+            { status: 0 }
+        ]});
+}
+
+function getInvitesCount(id){
+    return friends.count({ 
+        $and: [ 
+            { friend_2: id }, 
+            { status: 0 }
+        ]});
+}
+
+function getFriendsCount(id){
+    return friends.count({
+        $and: [
+            { $or: [{friend_1: id}, {friend_2: id}] },
+            { status: 1 }
+        ]
+    });
+}
+
+function isFriend(user1, user2){
+    return friends.findOne({
+        $and:[{ 
             $or: [
-                { $and: [{friend_1: sender}, {friend_2: receiver}] },
-                { $and: [{friend_1: receiver}, {friend_2: sender}] }
-            ]
-        });
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+                { $and: [{friend_1: user1}, {friend_2: user2}] },
+                { $and: [{friend_1: user2}, {friend_2: user1}] }
+                ]
+            }
+        , { status: 1 }]
+    });
 }
 
-async function rejectFriend(sender, receiver){
-    try {
-        return await friends.findOneAndRemove({
-            $and:[ 
-                {friend_1: sender}, 
-                {friend_2: receiver}, 
-                {status: 0}
-            ]});
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function getFriends(id){
-    try {
-        return await friends.find({
-            $and: [
-                { $or: [{friend_1: id}, {friend_2: id}] },
-                { status: 1 }
-            ]
-        });
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function getInvites(id){
-    try {
-        return await friends.find({ 
-            $and: [ 
-                { friend_2: id }, 
-                { status: 0 }
-            ]});
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function getInvitesCount(id){
-    try {
-        return await friends.count({ 
-            $and: [ 
-                { friend_2: id }, 
-                { status: 0 }
-            ]});
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function getFriendsCount(id){
-    try {
-        return await friends.count({
-            $and: [
-                { $or: [{friend_1: id}, {friend_2: id}] },
-                { status: 1 }
-            ]
-        });
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function isFriend(user1, user2){
-    try {
-        return await friends.findOne({
-            $and:[{ 
-                $or: [
-                    { $and: [{friend_1: user1}, {friend_2: user2}] },
-                    { $and: [{friend_1: user2}, {friend_2: user1}] }
-                    ]
-                }
-            , { status: 1 }]
-        });
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function isInvited(user1, user2){
-    try {
-        return await friends.findOne({
-            $and:[ 
-                {friend_1: user1}, 
-                {friend_2: user2}, 
-                {status: 0}
-            ]});
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+function isInvited(user1, user2){
+    return friends.findOne({
+        $and:[ 
+            {friend_1: user1}, 
+            {friend_2: user2}, 
+            {status: 0}
+        ]});
 }
 
  module.exports.inviteFriend = inviteFriend;    

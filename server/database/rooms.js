@@ -18,84 +18,49 @@ roomSchema = new Schema({
 roomSchema.plugin(autoIncrement.plugin, { model: 'rooms', field: 'id',  startAt: 1 });
 rooms = database.model('rooms', roomSchema);
  
-async function addRoom(owner, user){
-    try {
-        room = new rooms({ 
-            owner: owner,
-            users: [owner, user]
+function addRoom(owner, user){
+    room = new rooms({ 
+        owner: owner,
+        users: [owner, user]
+    });
+    return room.save(); 
+}
+
+function findRoom(room){
+    return rooms.findOne({id : room});
+}
+
+function deleteRoom(room){
+    return rooms.findOneAndRemove({id : room});
+}
+
+function setPic(room, picture){
+    return rooms.findOneAndUpdate(
+        {id: room}, 
+        {pic: picture}, 
+        { new: true })
+}
+
+function setTitle(room, title){
+    return rooms.findOneAndUpdate(
+        {id: room}, 
+        {title: title}, 
+        { new: true })
+}
+
+function addUser(room, user){
+    return rooms.update(
+        { id: room }, 
+        { $push: 
+            { users: user } 
         });
-        return await room.save(); 
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
 }
-
-async function findRoom(room){
-    try {
-        return await rooms.findOne({id : room});
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function deleteRoom(room){
-    try {
-        return await rooms.findOneAndRemove({id : room});
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function setPic(room, picture){
-    try {
-        return await rooms.findOneAndUpdate(
-            {id: room}, 
-            {pic: picture}, 
-            { new: true })
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function setTitle(room, title){
-    try {
-        return await rooms.findOneAndUpdate(
-            {id: room}, 
-            {title: title}, 
-            { new: true })
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function addUser(room, user){
-    try {
-        return await rooms.update(
-            { id: room }, 
-            { $push: 
-                { users: user } 
-            });
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-async function deleteUser(room, user){
-    try {
-        return await rooms.update(
-            { id: room }, 
-            { $pull: 
-                { users: user } 
-            });
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+function deleteUser(room, user){
+    return rooms.update(
+        { id: room }, 
+        { $pull: 
+            { users: user } 
+        });
 }
 
 module.exports.addRoom = addRoom;

@@ -20,115 +20,75 @@ messageSchema = new Schema({
 messageSchema.plugin(autoIncrement.plugin, { model: 'messages', field: 'id',  startAt: 1 });
 messages = database.model('messages', messageSchema);
  
-async function addMessage(sender, message, room){
-    try {
-        message = new messages({
-            sender: sender,
-            message: message,
-            room: room
-        });
-        return await message.save();
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+function addMessage(sender, message, room){
+    message = new messages({
+        sender: sender,
+        message: message,
+        room: room
+    });
+    return message.save();
 }
 
-async function readMessage(message_id, room){
-    try {
-        return await messages.findOneAndUpdate({
-            $and:[
-                {id: message_id}, 
-                {room: room}, 
-            ]}, 
-            {status: 1}, {new: true})
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+function readMessage(message_id, room){
+    return messages.findOneAndUpdate({
+        $and:[
+            {id: message_id}, 
+            {room: room}, 
+        ]}, 
+        {status: 1}, {new: true})
 }
 
 
-async function deleteMessage(user, message_id, room){
-    try {
-        return await messages.findOneAndRemove({
-            $and:[
-                {id: message_id}, 
-                {sender: user}, 
-                {room: room}
-            ]
-        });
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+function deleteMessage(user, message_id, room){
+    return messages.findOneAndRemove({
+        $and:[
+            {id: message_id}, 
+            {sender: user}, 
+            {room: room}
+        ]
+    });
 }
 
-async function hideMessage(user, message_id, room){
-    try {
-        return await messages.findOneAndUpdate({
-            $and:[
-                {id: message_id}, 
-                {room: room}
-            ]}, 
-            {$push: { hidden: user } }, {new: true})
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+function hideMessage(user, message_id, room){
+    return messages.findOneAndUpdate({
+        $and:[
+            {id: message_id}, 
+            {room: room}
+        ]}, 
+        {$push: { hidden: user } }, {new: true})
 }
 
-async function getMessages(user, room, offset, limit){
-    try {
-        return await messages.find({
-            $and: [
+function getMessages(user, room, offset, limit){
+    return messages.find({
+        $and: [
+        { room: room },
+        { hidden: { $ne: user } 
+    }]
+    }).skip(offset).limit(limit).sort({date: -1})
+    .exec();
+}
+
+function getMessage(message_id, room){
+    return messages.findOne({
+        $and: [
             { room: room },
-            { hidden: { $ne: user } 
-        }]
-        }).skip(offset).limit(limit).sort({date: -1})
-        .exec();
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+            { id: message_id}
+        ]
+    })
 }
 
-async function getMessage(message_id, room){
-    try {
-        return await messages.findOne({
-            $and: [
-                { room: room },
-                { id: message_id}
-            ]
-        })
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+function getLastMessage(user, room){
+    return messages.findOne({
+        $and: [
+        { room: room },
+        { hidden: { $ne: user } 
+    }]
+    }).sort({date: -1})
+    .exec();
 }
 
-async function getLastMessage(user, room){
-    try {
-        return await messages.findOne({
-            $and: [
-            { room: room },
-            { hidden: { $ne: user } 
-        }]
-        }).sort({date: -1})
-        .exec();
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
-}
-
-async function deleteMessagesFromRoom(room){
-    try {
-        return await messages.findAndRemove({room: room});
-    } catch (error) {
-        console.log(error);
-        return error;
-    }
+function deleteMessagesFromRoom(room){
+    return messages.findAndRemove({room: room});
 }
 
  module.exports.addMessage = addMessage;

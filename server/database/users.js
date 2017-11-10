@@ -32,106 +32,56 @@ userSchema.plugin(autoIncrement.plugin, { model: 'users', field: 'id',  startAt:
 users = database.model('users', userSchema);
  
  
-async function registerUser(nickname, email, password){
-    try {
-        user = new users({
-            nickname: nickname,
-            email: email,
-            password: password,
-       });
-       return await user.save();
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
-    }
+function registerUser(nickname, email, password){
+    user = new users({
+        nickname: nickname,
+        email: email,
+        password: password,
+    });
+    return user.save();
 }
  
-async function deleteUser(id){
-    try {
-        return await users.findOneAndUpdate({id : id}, {$set: {deleted: true}}, { new: true })
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ status: 500, message: error});  
-    }
+function deleteUser(id){
+    return users.findOneAndUpdate({id : id}, {$set: {deleted: true}}, { new: true })
 }
 
-async function restoreUser(id) {
-    try {
-        return await users.findOneAndUpdate({id : id}, {$set: {deleted: false}}, { new: true })
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ status: 500, message: error});  
-    }
+function restoreUser(id) {
+    return users.findOneAndUpdate({id : id}, {$set: {deleted: false}}, { new: true })
 }
 
 
-async function getUser(id){
-    try {
-        return await users.findOne({id : id});
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
-    }
+function getUser(id){
+    return users.findOne({id : id});
 }
 
-async function getUserByEmail(email){
-    try {
-        return await users.findOne({email : email});
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ status: 500, message: error});   
-    }
+function getUserByEmail(email){
+    return users.findOne({email : email});
 }
 
-async function updateUser(id, data){
-    try {
-        return await users.findOneAndUpdate({id : id}, {$set:data}, { new: true })
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
-    }
+function updateUser(id, data){
+    return users.findOneAndUpdate({id : id}, {$set:data}, { new: true })
 }
 
-async function getUsers(offset, limit){
-    try {
-        return await users.find({}).skip(offset).limit(limit).exec();
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
-    }
+function getUsers(offset, limit){
+    return users.find({}).skip(offset).limit(limit).exec();
 }
 
-async function getCount(){
-    try {
-        return await users.count({});
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
-    }
+function getCount(){
+    return users.count({});
 }
 
-async function addRoom(room, user){
-    try {
-        return await users.update(
-            { id: user }, 
-            { $push: { rooms: room } 
-        });  
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
-    }
+function addRoom(room, user){
+    return users.update(
+        { id: user }, 
+        { $push: { rooms: room } 
+    });  
 }
 
-async function deleteRoom(room, user){
-    try {
-        return await users.update(
-            { id: user }, 
-            { $pull: { rooms: room } 
-        });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
-    }
+function deleteRoom(room, user){
+    return users.update(
+        { id: user }, 
+        { $pull: { rooms: room } 
+    });
 }
 
  module.exports.registerUser = registerUser;    

@@ -58,7 +58,7 @@ app.get('*', (req, res) => {
   
 
 // connect to database
-mongoose.set('Promise', Promise);
+mongoose.Promise = require('bluebird');
 mongoose.connect(dbConfig, {useMongoClient: true}, function(err) {
     if (err) throw err;
     console.log('connected to mongodb!');
