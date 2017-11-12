@@ -3,141 +3,308 @@ const usersDatabase = require('../database/users');
 
 async function inviteFriend(req, res){
     try {
-        if(!req.params.id){
-            return res.status(400).json({ status: 400, message: 'Receiver is required'}); 
+        if(!/^\d+$/.test(req.params.id)){
+            return res.status(400).json({ 
+                status: 400, 
+                message: "-id- must be a number",
+                data: null
+            });
         }
+
+        if(!req.params.id){
+            return res.status(400).json({ 
+                status: 400, 
+                message: '-id- is required', 
+                data: null
+            }); 
+        }
+
+        if(req.params.id == req.session.userid){
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'You cannot use your own id', 
+                data: null
+            }); 
+        }
+
+        req.params.id = Number(req.params.id);
 
         let userIsFriend = await database.isFriend(req.session.userid, req.params.id);
         let userIsInvited = await database.isInvited(req.session.userid, req.params.id);
         let user = await usersDatabase.getUser(req.params.id);
 
         if(!user){
-            return res.status(400).json({ status: 400, message: 'User doesnt exist'}); 
+            return res.status(400).json({ status: 400, message: 'User doesnt exist', data: null}); 
         }
 
         if(userIsFriend){
-            return res.status(400).json({ status: 400, message: 'User is already your friend'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User is already your friend', 
+                data: null
+            }); 
         }
 
         if(userIsInvited){
-            return res.status(400).json({ status: 400, message: 'User is already invited'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User is already invited', 
+                data: null
+            }); 
         }
 
         await database.inviteFriend(req.session.userid, req.params.id);
-        return res.status(200).json({ status: 200, message: "success"});
+        return res.status(200).json({ status: 200, message: "success", data: null});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
+        return res.status(500).json({ status: 500, message: error, data: null}); 
     }
 }
 
 async function addFriend(req, res){
     try {
-        if(!req.params.id){
-            return res.status(400).json({ status: 400, message: 'Sender is required'}); 
+        if(!/^\d+$/.test(req.params.id)){
+            return res.status(400).json({ 
+                status: 400,
+                message: "-id- must be a number",
+                data: null
+            });
         }
 
+        if(!req.params.id){
+            return res.status(400).json({ 
+                status: 400, 
+                message: '-id- is required', 
+                data: null
+            }); 
+        }
+        
+        if(req.params.id == req.session.userid){
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'You cannot use your own id', 
+                data: null
+            }); 
+        }
+
+        req.params.id = Number(req.params.id);
+        
         let isInvited = await database.isInvited(req.params.id, req.session.userid);
+        let userIsFriend = await database.isFriend(req.session.userid, req.params.id);
         let user = await usersDatabase.getUser(req.params.id);
         
         if(!user){
-            return res.status(400).json({ status: 400, message: 'User doesnt exist'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User doesnt exist', 
+                data: null
+            }); 
+        }
+
+        if(userIsFriend){
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User is already your friend',
+                data: null
+            }); 
         }
         
         if(!isInvited){
-            return res.status(400).json({ status: 400, message: 'You are not invited by this user'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'You are not invited by this user',
+                data: null
+            }); 
         }
 
         await database.addFriend(req.params.id, req.session.userid);
-        return res.status(200).json({ status: 200, message: "success"});
+        return res.status(200).json({ status: 200, message: "success", data: null});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
+        return res.status(500).json({ status: 500, message: error, data: null}); 
     }
 }
     
 async function deleteFriend(req, res){
     try {
-        if(!req.params.id){
-            return res.status(400).json({ status: 400, message: 'Sender is required'}); 
+        if(!/^\d+$/.test(req.params.id)){
+            return res.status(400).json({ 
+                status: 400, 
+                message: "-id- must be a number",
+                data: null
+            });
         }
+
+        if(!req.params.id){
+            return res.status(400).json({ 
+                status: 400, 
+                message: '-id- is required',
+                data: null
+            }); 
+        }
+        
+        if(req.params.id == req.session.userid){
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'You cannot use your own id',
+                data: null
+            }); 
+        }
+
+        req.params.id = Number(req.params.id);
 
         let userIsFriend = await database.isFriend(req.session.userid, req.params.id);
         let user = await usersDatabase.getUser(req.params.id);
 
         if(!user){
-            return res.status(400).json({ status: 400, message: 'User doesnt exist'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User doesnt exist', 
+                data: null
+            }); 
         }
 
         if(!userIsFriend){
-            return res.status(400).json({ status: 400, message: 'User is not your friend'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User is not your friend',
+                data: null
+            }); 
         }
     
         await database.deleteFriend(req.session.userid, req.params.id);
-        return res.status(200).json({ status: 200, message: "success"});
+        return res.status(200).json({ status: 200, message: "success", data: null});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
+        return res.status(500).json({ status: 500, message: error, data: null}); 
     }
 }
 
 async function rejectFriend(req, res){
     try {
-        if(!req.params.id){
-            return res.status(400).json({ status: 400, message: 'Sender is required'}); 
+        if(!/^\d+$/.test(req.params.id)){
+            return res.status(400).json({ 
+                status: 400, 
+                message: "-id- must be a number",
+                data: null
+            });
         }
 
+        if(!req.params.id){
+            return res.status(400).json({ 
+                status: 400, 
+                message: '-id- is required',
+                data: null
+            }); 
+        }
+        
+        if(req.params.id == req.session.userid){
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'You cannot use your own id',
+                data: null
+            }); 
+        }
+        
+        req.params.id = Number(req.params.id);
+        
         let userIsFriend = await database.isFriend(req.session.userid, req.params.id);
         let isInvited = await database.isInvited(req.params.id, req.session.userid);
         let user = await usersDatabase.getUser(req.params.id);
         
         if(!user){
-            return res.status(400).json({ status: 400, message: 'User doesnt exist'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User doesnt exist',
+                data: null
+            }); 
         }
 
         if(userIsFriend){
-            return res.status(400).json({ status: 400, message: 'User is already your friend'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User is already your friend',
+                data: null
+            }); 
         }
         
         if(!isInvited){
-            return res.status(400).json({ status: 400, message: 'You are not invited by this user'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'You are not invited by this user',
+                data: null
+            }); 
         }
 
         await database.rejectFriend(req.params.id, req.session.userid);
-        return res.status(200).json({ status: 200, message: "success"});
+        return res.status(200).json({ status: 200, message: "success", data: null});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
+        return res.status(500).json({ status: 500, message: error, data: null}); 
     }
 }
 
 async function cancelInvite(req, res){
     try {
-        if(!req.params.id){
-            return res.status(400).json({ status: 400, message: 'Receiver is required'}); 
+        if(!/^\d+$/.test(req.params.id)){
+            return res.status(400).json({ 
+                status: 400, 
+                message: "-id- must be a number",
+                data: null
+            });
         }
+
+        if(!req.params.id){
+            return res.status(400).json({ 
+                status: 400, 
+                message: '-id- is required',
+                data: null
+            }); 
+        }
+        
+        if(req.params.id == req.session.userid){
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'You cannot use your own id',
+                data: null
+            }); 
+        }
+
+        req.params.id = Number(req.params.id);        
 
         let userIsFriend = await database.isFriend(req.session.userid, req.params.id);
         let userIsInvited = await database.isInvited(req.session.userid, req.params.id);
         let user = await usersDatabase.getUser(req.params.id);
 
         if(!user){
-            return res.status(400).json({ status: 400, message: 'User doesnt exist'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User doesnt exist',
+                data: null
+            }); 
         }
 
         if(userIsFriend){
-            return res.status(400).json({ status: 400, message: 'User is already your friend'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User is already your friend',
+                data: null
+            }); 
         }
 
         if(!userIsInvited){
-            return res.status(400).json({ status: 400, message: 'User is not invited'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User is not invited',
+                data: null
+            }); 
         }
 
         await database.rejectFriend(req.session.userid, req.params.id);
-        return res.status(200).json({ status: 200, message: "success"});
+        return res.status(200).json({ status: 200, message: "success", data: null});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
+        return res.status(500).json({ status: 500, message: error, data: null}); 
     }
 }
 
@@ -148,7 +315,7 @@ async function getFriends(req, res){
         return res.status(200).json({ status: 200, message: "success", data: friends});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
+        return res.status(500).json({ status: 500, message: error, data: null}); 
     }
 }
 
@@ -159,7 +326,7 @@ async function getInvites(req, res){
         return res.status(200).json({ status: 200, message: "success", data: invites});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
+        return res.status(500).json({ status: 500, message: error, data: null}); 
     }
 }
 
@@ -169,7 +336,7 @@ async function getInvitesCount(req, res){
         return res.status(200).json({ status: 200, message: "success", data: invitesCount});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
+        return res.status(500).json({ status: 500, message: error, data: null}); 
     }
 }
 
@@ -179,7 +346,7 @@ async function getFriendsCount(req, res){
         return res.status(200).json({ status: 200, message: "success", data: friendsCount});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error}); 
+        return res.status(500).json({ status: 500, message: error, data: null}); 
     }
 }
 
@@ -203,97 +370,200 @@ async function getListOfUsers(req, res, results){
             let user = await usersDatabase.getUser(friend);
     
             if(!user){
-               return res.status(400).json({ status: 400, message: 'User not found'});
+               return res.status(400).json({ 
+                   status: 400, 
+                   message: 'User not found', 
+                   data: null
+                });
             }
     
             users.push({
-                id: doc.id,
-                nickname: doc.nickname,
-                avatar: doc.avatar,
-                gender: doc.gender,
-                country: doc.country,
-                city: doc.city,
+                id: user.id,
+                nickname: user.nickname,
+                avatar: user.avatar,
+                gender: user.gender,
+                country: user.country,
+                city: user.city,
             });
         }
         return users;
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error});
+        return res.status(500).json({ status: 500, message: error, data: null});
     }
 }
 
 async function isFriend(req, res){
     try {
-        if(!req.params.id){
-            return res.status(400).json({ status: 400, message: 'Id is required'}); 
+        if(!/^\d+$/.test(req.params.id)){
+            return res.status(400).json({ 
+                status: 400, 
+                message: "-id- must be a number",
+                data: null
+            });
         }
 
+        if(!req.params.id){
+            return res.status(400).json({ 
+                status: 400, 
+                message: '-id- is required',
+                data: null
+            }); 
+        }
+                
+        if(req.params.id == req.session.userid){
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'You cannot use your own id',
+                data: null
+            }); 
+        }
+
+        req.params.id = Number(req.params.id);
+        
         let user = await usersDatabase.getUser(req.params.id);
         
         if(!user){
-            return res.status(400).json({ status: 400, message: 'User doesnt exist'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User doesnt exist',
+                data: null
+            }); 
         }
 
         let isfriend = await database.isFriend(req.session.userid, req.params.id);
         
         if(!isfriend){
-            return res.status(400).json({ status: 400, message: false});
+            return res.status(200).json({ status: 200, message: "success", data: false});
         }
 
-        return res.status(200).json({ status: 200, message: true});
+        return res.status(200).json({ status: 200, message: "success", data: true});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error});
+        return res.status(500).json({ status: 500, message: error, data: null});
     }
 }
 
 async function isInvited(req, res){
     try {
-        if(!req.params.id){
-            return res.status(400).json({ status: 400, message: 'Id is required'}); 
+        if(!/^\d+$/.test(req.params.id)){
+            return res.status(400).json({ 
+                status: 400, 
+                message: "-id- must be a number",
+                data: null
+            });
         }
+
+        if(!req.params.id){
+            return res.status(400).json({ 
+                status: 400, 
+                message: '-id- is required',
+                data: null
+            }); 
+        }
+        
+        if(req.params.id == req.session.userid){
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'You cannot use your own id',
+                data: null
+            }); 
+        }
+
+        req.params.id = Number(req.params.id);        
 
         let user = await usersDatabase.getUser(req.params.id);
         
         if(!user){
-            return res.status(400).json({ status: 400, message: 'User doesnt exist'}); 
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User doesnt exist',
+                data: null
+            }); 
         }
 
-        let isfriend = await database.isInvited(req.session.userid, req.params.id);
+        let isinvited = await database.isInvited(req.session.userid, req.params.id);
         
-        if(!isfriend){
-            return res.status(400).json({ status: 400, message: false});
+        if(!isinvited){
+            return res.status(200).json({ status: 200, message: "success", data: false});
         }
 
-        return res.status(200).json({ status: 200, message: true});
+        return res.status(200).json({ status: 200, message: "success", data: true});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ status: 500, message: error, data: null});
+    }
+}
+
+async function meIsInvited(req, res){
+    try {
+        if(!/^\d+$/.test(req.params.id)){
+            return res.status(400).json({ 
+                status: 400, 
+                message: "-id- must be a number",
+                data: null
+            });
+        }
+
+        if(!req.params.id){
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'Id is required',
+                data: null
+            }); 
+        }
+                
+        if(req.params.id == req.session.userid){
+            return res.status(400).json({ 
+                status: 400,
+                message: 'You cannot use your own id',
+                data: null
+                }); 
+        }
+        
+        req.params.id = Number(req.params.id);
+        
+        let user = await usersDatabase.getUser(req.params.id);
+        
+        if(!user){
+            return res.status(400).json({ 
+                status: 400, 
+                message: 'User doesnt exist',
+                data: null
+            }); 
+        }
+
+        let meisinvited = await database.isInvited(req.params.id, req.session.userid);
+        
+        if(!meisinvited){
+            return res.status(400).json({ status: 400, message: "success", data: false});
+        }
+
+        return res.status(200).json({ status: 200, message: "success", data: true});
     } catch (error) {
         console.log(error);
         return res.status(500).json({ status: 500, message: error});
     }
 }
 
-async function meIsInvited(req, res){
+async function getMyInvites(req, res) {
     try {
-        if(!req.params.id){
-            return res.status(400).json({ status: 400, message: 'Id is required'}); 
-        }
-
-        let user = await usersDatabase.getUser(req.params.id);
-        
-        if(!user){
-            return res.status(400).json({ status: 400, message: 'User doesnt exist'}); 
-        }
-
-        let isfriend = await database.isInvited(req.params.id, req.session.userid);
-        
-        if(!isfriend){
-            return res.status(400).json({ status: 400, message: false});
-        }
-
-        return res.status(200).json({ status: 200, message: true});
+        let invites_id = await database.getMyInvites(req.session.userid);
+        let invites = await getListOfUsers(req, res, invites_id);
+        return res.status(200).json({ status: 200, message: "success", data: invites});
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ status: 500, message: error});
+        return res.status(500).json({ status: 500, message: error, data: null}); 
+    }
+}
+
+async function getMyInvitesCount(req, res){
+    try {
+        let invitesCount = await database.getMyInvitesCount(req.session.userid);
+        return res.status(200).json({ status: 200, message: "success", data: invitesCount});
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ status: 500, message: error, data: null}); 
     }
 }
 
@@ -309,3 +579,5 @@ module.exports.isFriend = isFriend;
 module.exports.isInvited = isInvited;
 module.exports.meIsInvited = meIsInvited;
 module.exports.cancelInvite = cancelInvite;
+module.exports.getMyInvites = getMyInvites;
+module.exports.getMyInvitesCount = getMyInvitesCount;

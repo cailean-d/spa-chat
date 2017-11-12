@@ -10,7 +10,7 @@ autoIncrement.initialize(database);
 
 messageSchema = new Schema({
     sender: {type: Number, required: true},
-    message: {type: Number, required: true},
+    message: {type: String, required: true},
     room: {type: Number, required: true},
     status: {type: Number, default: 0},
     hidden: {type: Array},

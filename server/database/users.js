@@ -49,7 +49,6 @@ function restoreUser(id) {
     return users.findOneAndUpdate({id : id}, {$set: {deleted: false}}, { new: true })
 }
 
-
 function getUser(id){
     return users.findOne({id : id});
 }

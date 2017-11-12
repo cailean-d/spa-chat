@@ -8,5 +8,6 @@ module.exports = function(req){
         version : parseInt(req.useragent.version),
         platform : req.useragent.platform
     }
+    
    return userinfo;
 }

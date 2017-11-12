@@ -21,19 +21,23 @@ router.delete('/users', (req, res) => {users.deleteUser(req, res)});
 router.post('/upload/avatar', (req, res) => {upload.uploadAvatar(req, res)});
 router.post('/upload/room/:room', (req, res) => {upload.uploadRoomImage(req, res)});
 
-// friends api
-router.get('/friends/friends', (req, res) => {friends.getFriends(req, res)});
-router.get('/friends/invites', (req, res) => {friends.getInvites(req, res)});
-router.get('/friends/friends/count', (req, res) => {friends.getFriendsCount(req, res)});
-router.get('/friends/invites/count', (req, res) => {friends.getInvitesCount(req, res)});
-router.get('/friends/isinvited/:id', (req, res) => {friends.isInvited(req, res)});
+// invites api
+router.get('/invites', (req, res) => {friends.getInvites(req, res)});
+router.get('/invites/count', (req, res) => {friends.getInvitesCount(req, res)});
+router.get('/invites/me', (req, res) => {friends.getMyInvites(req, res)});
+router.get('/invites/me/count', (req, res) => {friends.getMyInvitesCount(req, res)});
+router.get('/invites/isinvited/me/:id', (req, res) => {friends.meIsInvited(req, res)});
+router.get('/invites/isinvited/:id', (req, res) => {friends.isInvited(req, res)});
+router.post('/invites/:id', (req, res) => {friends.inviteFriend(req, res)});
+router.delete('/invites/:id', (req, res) => {friends.rejectFriend(req, res)});
+router.delete('/invites/me/:id', (req, res) => {friends.cancelInvite(req, res)});
+
+//friends api
+router.get('/friends', (req, res) => {friends.getFriends(req, res)});
+router.get('friends/count', (req, res) => {friends.getFriendsCount(req, res)});
 router.get('/friends/isfriend/:id', (req, res) => {friends.isFriend(req, res)});
-router.get('/friends/isinvited/me/:id', (req, res) => {friends.meIsInvited(req, res)});
-router.post('/friends/invite/:id', (req, res) => {friends.inviteFriend(req, res)});
-router.post('/friends/friend/:id', (req, res) => {friends.addFriend(req, res)});
-router.delete('/friends/invite/:id', (req, res) => {friends.rejectFriend(req, res)});
-router.delete('/friends/invite/me/:id', (req, res) => {friends.cancelInvite(req, res)});
-router.delete('/friends/friend/:id', (req, res) => {friends.deleteFriend(req, res)});
+router.post('/friends/:id', (req, res) => {friends.addFriend(req, res)});
+router.delete('/friends/:id', (req, res) => {friends.deleteFriend(req, res)});
 
 // rooms api
 router.post('/rooms/open/:user', (req, res) => {rooms.openRoom(req, res)});

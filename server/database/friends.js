@@ -66,6 +66,22 @@ function getInvites(id){
         ]});
 }
 
+function getMyInvites(id) {
+    return friends.find({ 
+        $and: [ 
+            { friend_1: id }, 
+            { status: 0 }
+        ]});
+}
+
+function getMyInvitesCount(id) {
+    return friends.count({ 
+        $and: [ 
+            { friend_1: id }, 
+            { status: 0 }
+        ]});
+}
+
 function getInvitesCount(id){
     return friends.count({ 
         $and: [ 
@@ -114,3 +130,5 @@ function isInvited(user1, user2){
  module.exports.getInvitesCount = getInvitesCount;
  module.exports.isFriend = isFriend;
  module.exports.isInvited = isInvited;
+ module.exports.getMyInvites = getMyInvites;
+ module.exports.getMyInvitesCount = getMyInvites;
